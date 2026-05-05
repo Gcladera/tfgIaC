@@ -1,0 +1,45 @@
+resource "aws_lambda_function" "crypto-api-call" {
+  function_name = "lambda-gecko"
+  role          = "arn:aws:iam::544820269502:role/service-role/lambda-gecko-role-d1cyk3hi"
+  s3_bucket     = "dummy"
+  s3_key        = "dummy"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.12"
+  timeout       = 60
+  memory_size   = 128
+  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+
+  lifecycle {
+    ignore_changes = [filename, source_code_hash, s3_bucket, s3_key, image_uri]
+  }
+  environment {
+    variables = {
+      "COINGECKO_API_KEY" = "CG-jKMgn4fNoUstQL6WD93fYi2E"
+      "TZ"                = "Europe/Madrid"
+    }
+  }
+}
+
+resource "aws_lambda_function" "posts-api-call" {
+  function_name = "lambda-posts"
+  role          = "arn:aws:iam::544820269502:role/service-role/lambda-posts-role-p6kfn5ls"
+  s3_bucket     = "dummy"
+  s3_key        = "dummy"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.12"
+  timeout       = 180
+  memory_size   = 512
+  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+
+  lifecycle {
+    ignore_changes = [filename, source_code_hash, s3_bucket, s3_key, image_uri]
+  }
+  environment {
+    variables = {
+      "BS_PASSWORD"       = "mENp8HEbpv9kUid"
+      "BS_USER"           = "grau.cladera@autonoma.cat"
+      "COINGECKO_API_KEY" = "CG-jKMgn4fNoUstQL6WD93fYi2E"
+      "TZ"                = "Europe/Madrid"
+    }
+  }
+}
