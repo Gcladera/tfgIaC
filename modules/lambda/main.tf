@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "crypto-api-call" {
   function_name = "lambda-gecko"
-  role          = "arn:aws:iam::544820269502:role/service-role/lambda-gecko-role-d1cyk3hi"
+  role          = var.lambda_gecko_role_arn
   s3_bucket     = "dummy"
   s3_key        = "dummy"
   handler       = "lambda_function.lambda_handler"
@@ -22,7 +22,7 @@ resource "aws_lambda_function" "crypto-api-call" {
 
 resource "aws_lambda_function" "posts-api-call" {
   function_name = "lambda-posts"
-  role          = "arn:aws:iam::544820269502:role/service-role/lambda-posts-role-p6kfn5ls"
+  role          = var.lambda_posts_role_arn
   s3_bucket     = "dummy"
   s3_key        = "dummy"
   handler       = "lambda_function.lambda_handler"

@@ -1,6 +1,21 @@
+resource "aws_ecs_cluster" "Grafana-ECS-cluster" {
+  name = "Grafana-ECS-cluster"
+  region   = "eu-north-1"
+  configuration {
+      execute_command_configuration {
+          kms_key_id = null
+          logging    = "DEFAULT"
+      }
+  }
+  setting {
+    name  = "containerInsights"
+    value = "disabled"
+  }
+}
+
 resource "aws_ecs_service" "grafana" {
   name                    = "grafana-task-service-hdxytfxw"
-  cluster                 = "arn:aws:ecs:eu-north-1:544820269502:cluster/Grafana-ECS-cluster"
+  cluster                 = aws_ecs_cluster.Grafana-ECS-cluster.arn
   task_definition         = "grafana-task:9"
   desired_count           = 0
   launch_type             = "FARGATE"
@@ -13,7 +28,82 @@ resource "aws_ecs_service" "grafana" {
 
   network_configuration {
     assign_public_ip = true
-    security_groups  = ["sg-0f99122693a71ba73"]
-    subnets          = ["subnet-0969d0a4fa4582b70"]
+    security_groups  = var.ecs_security_group_ids
+    subnets          = var.ecs_subnet_ids
+  }
+}
+
+resource "aws_ecs_task_definition" "grafana_task" {
+  container_definitions = jsonencode([{
+    environment = [{
+      name  = "GF_AWS_PROFILES"
+      value = "default"
+      }, {
+      name  = "GF_INSTALL_PLUGINS"
+      value = "grafana-athena-datasource"
+    }]
+    environmentFiles = []
+    essential        = true
+    image            = "grafana/grafana:latest"
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-create-group  = "true"
+        awslogs-group         = "/ecs/grafana-task"
+        awslogs-region        = "eu-north-1"
+        awslogs-stream-prefix = "ecs"
+      }
+      secretOptions = []
+    }
+    mountPoints = [{
+      containerPath = "/var/lib/grafana"
+      readOnly      = false
+      sourceVolume  = "grafana-efs"
+    }]
+    name = "grafana"
+    portMappings = [{
+      appProtocol   = "http"
+      containerPort = 3000
+      hostPort      = 3000
+      name          = "grafana-3000-tcp"
+      protocol      = "tcp"
+    }]
+    systemControls = []
+    ulimits        = []
+    volumesFrom    = []
+  }])
+  cpu                      = "512"
+  enable_fault_injection   = false
+  execution_role_arn       = var.execution_role_arn
+  family                   = "grafana-task"
+  ipc_mode                 = null
+  memory                   = "1024"
+  network_mode             = "awsvpc"
+  pid_mode                 = null
+  region                   = "eu-north-1"
+  requires_compatibilities = ["FARGATE"]
+  skip_destroy             = null
+  tags                     = {}
+  tags_all                 = {}
+  task_role_arn            = var.task_role_arn
+  track_latest             = false
+  runtime_platform {
+    cpu_architecture        = "X86_64"
+    operating_system_family = "LINUX"
+  }
+  volume {
+    configure_at_launch = false
+    host_path           = null
+    name                = "grafana-efs"
+    efs_volume_configuration {
+      file_system_id          = var.efs_file_system_id
+      root_directory          = "/"
+      transit_encryption      = "ENABLED"
+      transit_encryption_port = 0
+      authorization_config {
+        access_point_id = var.efs_access_point_id
+        iam             = "ENABLED"
+      }
+    }
   }
 }

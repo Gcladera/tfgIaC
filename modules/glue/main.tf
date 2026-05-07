@@ -1,7 +1,7 @@
 resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
   name          = "bronze-crypto-market_ranking"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/bronze/crypto/market_ranking/"
@@ -19,7 +19,7 @@ resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
 resource "aws_glue_crawler" "bronze-crypto-sentiment" {
   name          = "bronze-crypto-sentiment"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/bronze/crypto/sentiment/"
@@ -36,7 +36,7 @@ resource "aws_glue_crawler" "bronze-crypto-sentiment" {
 resource "aws_glue_crawler" "bronze-crypto-trending" {
   name          = "bronze-crypto-trending"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/bronze/crypto/trending/"
@@ -53,7 +53,7 @@ resource "aws_glue_crawler" "bronze-crypto-trending" {
 resource "aws_glue_crawler" "bronze-posts-content" {
   name          = "bronze-posts-content"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
     path = "s3://amzn-s3-tfgdl/bronze/posts/post_content/"
@@ -69,7 +69,7 @@ resource "aws_glue_crawler" "bronze-posts-content" {
 resource "aws_glue_crawler" "bronze-posts-relationships" {
   name          = "bronze-posts-relationships"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for accounts relationship"
   s3_target {
     path = "s3://amzn-s3-tfgdl/bronze/posts/social_media_relationships/"
@@ -85,7 +85,7 @@ resource "aws_glue_crawler" "bronze-posts-relationships" {
 resource "aws_glue_crawler" "silver-crypto-market_ranking" {
   name          = "silver-crypto-market_ranking-copy"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/market_ranking_silver/"
@@ -102,7 +102,7 @@ resource "aws_glue_crawler" "silver-crypto-market_ranking" {
 resource "aws_glue_crawler" "silver-crypto-sentiment" {
   name          = "silver-crypto-sentiment"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/sentiment_silver/"
@@ -119,7 +119,7 @@ resource "aws_glue_crawler" "silver-crypto-sentiment" {
 resource "aws_glue_crawler" "silver-crypto-trending" {
   name          = "silver-crypto-trending"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/trending_silver/"
@@ -136,7 +136,7 @@ resource "aws_glue_crawler" "silver-crypto-trending" {
 resource "aws_glue_crawler" "silver-posts-content" {
   name          = "silver-posts-content"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
     path = "s3://amzn-s3-tfgdl/silver/posts-silver/post-content-silver/"
@@ -152,7 +152,7 @@ resource "aws_glue_crawler" "silver-posts-content" {
 resource "aws_glue_crawler" "silver-posts-relationships" {
   name          = "silver-posts-relationships"
   database_name = "glue-crawler-schema-database"
-  role          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG"
+  role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for accounts relationship"
   s3_target {
     path = "s3://amzn-s3-tfgdl/silver/posts-silver/neo4j/"
@@ -184,7 +184,7 @@ resource "aws_glue_catalog_database" "schema_database" {
 #----------------------- 
 resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
   name              = "JobsETLPostsBronzeSIlver.py"
-  role_arn          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole"
+  role_arn          = var.glue_service_role_arn
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
@@ -209,7 +209,7 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
 
 resource "aws_glue_job" "relationshipsBronzeSilver" {
   name              = "relationshipsBronzeSilver.py"
-  role_arn          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole"
+  role_arn          = var.glue_service_role_arn
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
@@ -235,7 +235,7 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
 
 resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
   name              = "ETLjobCryptoBronzeSilver"
-  role_arn          = "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole"
+  role_arn          = var.glue_service_role_arn
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
