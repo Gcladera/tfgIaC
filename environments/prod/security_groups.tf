@@ -18,7 +18,7 @@ resource "aws_security_group" "grafana_sg" {
   }
 }
 
-resource "aws_security_group" "efs_grafana_sg" {
+resource "aws_security_group" "efs_grafana" {
   name        = "efs-grafana"
   description = "allowc ecs access to efs"
   vpc_id      = "vpc-060d4d3da00079625"
@@ -36,4 +36,28 @@ resource "aws_security_group" "efs_grafana_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_security_group" "lambda-bronze" {
+  name        = "lambda-bronze"
+  description = "SG for bronze lambdas"
+  vpc_id      = module.vpc.vpc_id
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "lambda_silver_sg" {
+  name        = "lambda-silver-sg"
+  description = "Permite salida a la DB y servicios externos"
+  vpc_id      = module.vpc.vpc_id
+  egress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
 }

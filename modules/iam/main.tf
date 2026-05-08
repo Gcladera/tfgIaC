@@ -169,6 +169,32 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_1" {
   tags_all              = {}
 }
 
+resource "aws_iam_role" "eventbridge_scheduler_lambda_3" {
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Condition = {
+        StringEquals = {
+          "aws:SourceAccount" = "544820269502"
+        }
+      }
+      Effect = "Allow"
+      Principal = {
+        Service = "scheduler.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+  description           = null
+  force_detach_policies = false
+  max_session_duration  = 3600
+  name                  = "Amazon_EventBridge_Scheduler_LAMBDA_c658f80d48"
+  path                  = "/service-role/"
+  permissions_boundary  = null
+  tags                  = {}
+  tags_all              = {}
+}
+
 resource "aws_iam_role" "grafana_ecs_task_execution" {
   assume_role_policy = jsonencode({
     Statement = [{
@@ -244,3 +270,38 @@ resource "aws_iam_user" "grau_cladera" {
             "AKIAX5WORSG7MF2V2OWY" = "AWS CLI consola "
         }
     }
+
+resource "aws_iam_role_policy_attachment" "lambda_gecko_vpc_access" {
+  role       = aws_iam_role.lambda_gecko.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_posts_vpc_access" {
+  role       = aws_iam_role.lambda_posts.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role" "lambda_silver" {
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+  name = "lambda-silver-role"
+  path = "/service-role/"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_silver_vpc_access" {
+  role       = aws_iam_role.lambda_silver.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_silver_s3_access" {
+  role       = aws_iam_role.lambda_silver.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
