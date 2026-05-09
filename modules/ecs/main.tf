@@ -29,7 +29,7 @@ resource "aws_ecs_service" "grafana" {
   network_configuration {
     assign_public_ip = true
     security_groups  = var.ecs_security_group_ids
-    subnets          = var.ecs_subnet_ids
+    subnets          = ["subnet-0969d0a4fa4582b70"]
   }
 }
 

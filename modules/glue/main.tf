@@ -4,7 +4,7 @@ resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto/market_ranking/"
+    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/market-ranking-bronze/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -22,7 +22,7 @@ resource "aws_glue_crawler" "bronze-crypto-sentiment" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto/sentiment/"
+    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/sentiment-bronze/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -39,7 +39,7 @@ resource "aws_glue_crawler" "bronze-crypto-trending" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto/trending/"
+    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/trending-bronze/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -56,7 +56,7 @@ resource "aws_glue_crawler" "bronze-posts-content" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/posts/post_content/"
+    path = "s3://amzn-s3-tfgdl/bronze/posts-bronze/post-content-bronze/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -66,29 +66,14 @@ resource "aws_glue_crawler" "bronze-posts-content" {
     }
   })
 }
-resource "aws_glue_crawler" "bronze-posts-relationships" {
-  name          = "bronze-posts-relationships"
-  database_name = "glue-crawler-schema-database"
-  role          = var.glue_s3_role_arn
-  description   = "a crawler to create a datacatalog for accounts relationship"
-  s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/posts/social_media_relationships/"
-  }
-  configuration = jsonencode({
-    Version = 1.0
-    CreatePartitionIndex = true
-    Grouping = {
-      TableGroupingPolicy = "CombineCompatibleSchemas"
-    }
-  })
-}
+
 resource "aws_glue_crawler" "silver-crypto-market_ranking" {
   name          = "silver-crypto-market_ranking-copy"
   database_name = "glue-crawler-schema-database"
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/market_ranking_silver/"
+    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/market-ranking-silver/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -105,7 +90,7 @@ resource "aws_glue_crawler" "silver-crypto-sentiment" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/sentiment_silver/"
+    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/sentiment-silver/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -122,7 +107,7 @@ resource "aws_glue_crawler" "silver-crypto-trending" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/trending_silver/"
+    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/trending-silver/"
   }
   configuration = jsonencode({
     Version = 1.0
@@ -149,13 +134,99 @@ resource "aws_glue_crawler" "silver-posts-content" {
     }
   })
 }
+
 resource "aws_glue_crawler" "silver-posts-relationships" {
   name          = "silver-posts-relationships"
   database_name = "glue-crawler-schema-database"
   role          = var.glue_s3_role_arn
-  description   = "a crawler to create a datacatalog for accounts relationship"
+  description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/posts-silver/neo4j/"
+    path = "s3://amzn-s3-tfgdl/silver/posts-silver/social-media-relationships-silver/"
+  }
+  configuration = jsonencode({
+    Version = 1.0
+    CreatePartitionIndex = true
+    Grouping = {
+      TableGroupingPolicy = "CombineCompatibleSchemas"
+    }
+  })
+}
+
+resource "aws_glue_crawler" "gold-posts-relationships" {
+  name          = "gold-posts-relationships"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for social media accounts relationships"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/social-media-relationships-gold/"
+  }
+  configuration = jsonencode({
+    Version = 1.0
+    CreatePartitionIndex = true
+    Grouping = {
+      TableGroupingPolicy = "CombineCompatibleSchemas"
+    }
+  })
+}
+
+resource "aws_glue_crawler" "gold-crypto-market_ranking" {
+  name          = "gold-crypto-market_ranking"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for crypto data"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/market-ranking-gold/"
+  }
+  configuration = jsonencode({
+    Version = 1.0
+    CreatePartitionIndex = true
+  })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
+}
+resource "aws_glue_crawler" "gold-crypto-sentiment" {
+  name          = "gold-crypto-sentiment"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for crypto data"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/sentiment-gold/"
+  }
+  configuration = jsonencode({
+    Version = 1.0
+    CreatePartitionIndex = true
+  })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
+}
+resource "aws_glue_crawler" "gold-crypto-trending" {
+  name          = "gold-crypto-trending"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for crypto data"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/trending-gold/"
+  }
+  configuration = jsonencode({
+    Version = 1.0
+    CreatePartitionIndex = true
+  })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
+}
+resource "aws_glue_crawler" "gold-posts-content" {
+  name          = "gold-posts-content"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for posts content"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/post-content-gold/"
   }
   configuration = jsonencode({
     Version = 1.0

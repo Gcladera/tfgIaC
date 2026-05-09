@@ -25,6 +25,7 @@ module "eventbridge" {
   eventbridge_scheduler_lambda_1_role_arn = module.iam.eventbridge_scheduler_lambda_1_role_arn
   eventbridge_scheduler_lambda_2_role_arn = module.iam.eventbridge_scheduler_lambda_2_role_arn
   eventbridge_scheduler_lambda_3_role_arn = module.iam.eventbridge_scheduler_lambda_3_role_arn
+  eventbridge_scheduler_lambda_4_role_arn = module.iam.eventbridge_scheduler_lambda_4_role_arn
   lambda_gecko_silver_function_arn        = module.lambda.lambda_gecko_silver_function_arn
   lambda_posts_silver_function_arn        = module.lambda.lambda_posts_silver_function_arn
 }
@@ -55,6 +56,6 @@ provider "aws" {
 }
 
 import {
-  to = module.iam.aws_iam_role.eventbridge_scheduler_lambda_3
-  id = "Amazon_EventBridge_Scheduler_LAMBDA_c658f80d48"
+  to = aws_security_group.efs_grafana
+  id = "sg-0223778e1f3b6bf8b"
 }

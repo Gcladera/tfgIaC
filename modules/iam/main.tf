@@ -195,6 +195,32 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_3" {
   tags_all              = {}
 }
 
+resource "aws_iam_role" "eventbridge_scheduler_lambda_4" {
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Condition = {
+        StringEquals = {
+          "aws:SourceAccount" = "544820269502"
+        }
+      }
+      Effect = "Allow"
+      Principal = {
+        Service = "scheduler.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+  description           = null
+  force_detach_policies = false
+  max_session_duration  = 3600
+  name                  = "Amazon_EventBridge_Scheduler_LAMBDA_743b537341"
+  path                  = "/service-role/"
+  permissions_boundary  = null
+  tags                  = {}
+  tags_all              = {}
+}
+
 resource "aws_iam_role" "grafana_ecs_task_execution" {
   assume_role_policy = jsonencode({
     Statement = [{

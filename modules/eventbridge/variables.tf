@@ -25,3 +25,7 @@ variable "eventbridge_scheduler_lambda_2_role_arn" {
 variable "eventbridge_scheduler_lambda_3_role_arn" {
   type = string
 }
+
+variable "eventbridge_scheduler_lambda_4_role_arn" {
+  type = string
+}

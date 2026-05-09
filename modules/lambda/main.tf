@@ -5,7 +5,7 @@ resource "aws_lambda_function" "crypto-api-call" {
   s3_key        = "dummy"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.12"
-  timeout       = 60
+  timeout       = 180
   memory_size   = 128
   layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
@@ -57,7 +57,7 @@ resource "aws_lambda_function" "lambda-gecko-silver" {
   s3_key        = "dummy"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.12"
-  timeout       = 60
+  timeout       = 180
   memory_size   = 128
   layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
