@@ -20,6 +20,7 @@ resource "aws_lambda_function" "crypto-api-call" {
   environment {
     variables = {
       "TZ"                = "Europe/Madrid"
+      "SECRET_NAME"       = var.crypto_api_secret_name
     }
   }
 }
@@ -46,6 +47,7 @@ resource "aws_lambda_function" "posts-api-call" {
   environment {
     variables = {
       "TZ"                = "Europe/Madrid"
+      "SECRET_NAME"       = var.blue_sky_api_secret_name
     }
   }
 }

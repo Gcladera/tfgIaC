@@ -78,7 +78,7 @@ resource "aws_iam_role" "glue_service_role" {
       }
       Effect = "Allow"
       Principal = {
-        Service = "glue.amazonaws.com"
+        Service = ["glue.amazonaws.com", "lakeformation.amazonaws.com"]
       }
     }]
     Version = "2012-10-17"
@@ -128,7 +128,7 @@ resource "aws_iam_role" "glue_s3_role" {
       Action = "sts:AssumeRole"
       Effect = "Allow"
       Principal = {
-        Service = "glue.amazonaws.com"
+        Service = ["glue.amazonaws.com", "lakeformation.amazonaws.com"]
       }
     }]
     Version = "2012-10-17"
@@ -242,6 +242,49 @@ resource "aws_iam_role" "grafana_ecs_task_execution" {
   tags_all              = {}
 }
 
+resource "aws_iam_role_policy" "grafana_ecs_task_athena_lakeformation" {
+  name   = "grafana-ecs-task-athena-lf"
+  role   = aws_iam_role.grafana_ecs_task_execution.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = [
+          "athena:*",
+          "glue:GetDatabase",
+          "glue:GetDatabases",
+          "glue:GetTable",
+          "glue:GetTables",
+          "glue:GetPartition",
+          "glue:GetPartitions",
+          "glue:BatchGetPartition",
+          "lakeformation:GetDataAccess"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = [
+          "s3:GetBucketLocation",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListMultipartUploadParts",
+          "s3:AbortMultipartUpload",
+          "s3:PutObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::s3-athena-query-results-tfgdl",
+          "arn:aws:s3:::s3-athena-query-results-tfgdl/*",
+          var.datalake_bucket_arn,
+          "${var.datalake_bucket_arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role" "lambda_gecko" {
   assume_role_policy = jsonencode({
     Statement = [{
@@ -285,17 +328,27 @@ resource "aws_iam_role" "lambda_posts" {
 }
 
 resource "aws_iam_user" "grau_cladera" {
-        force_destroy        = false
-        name                 = "grau_cladera"
-        path                 = "/"
-        permissions_boundary = null
-        tags                 = {
-            "AKIAX5WORSG7MF2V2OWY" = "AWS CLI consola "
-        }
-        tags_all             = {
-            "AKIAX5WORSG7MF2V2OWY" = "AWS CLI consola "
-        }
-    }
+  force_destroy        = false
+  name                 = "grau_cladera"
+  path                 = "/"
+  permissions_boundary = null
+  tags = {
+    "AKIAX5WORSG7MF2V2OWY" = "AWS CLI consola "
+  }
+  tags_all = {
+    "AKIAX5WORSG7MF2V2OWY" = "AWS CLI consola "
+  }
+}
+
+resource "aws_iam_user_policy_attachment" "grau_cladera_athena" {
+  user       = aws_iam_user.grau_cladera.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAthenaFullAccess"
+}
+
+resource "aws_iam_user_policy_attachment" "grau_cladera_lakeformation" {
+  user       = aws_iam_user.grau_cladera.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin"
+}
 
 resource "aws_iam_role_policy_attachment" "lambda_gecko_vpc_access" {
   role       = aws_iam_role.lambda_gecko.name
@@ -327,7 +380,168 @@ resource "aws_iam_role_policy_attachment" "lambda_silver_vpc_access" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_silver_s3_access" {
-  role       = aws_iam_role.lambda_silver.name
+resource "aws_iam_role_policy" "lambda_silver_s3_access" {
+  name   = "lambda-silver-s3-access"
+  role   = aws_iam_role.lambda_silver.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "s3:ListBucket"
+        Resource = var.datalake_bucket_arn
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:GetObjectVersion"]
+        Resource = "${var.datalake_bucket_arn}/bronze/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:PutObject"]
+        Resource = "${var.datalake_bucket_arn}/silver/*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "lambda_gecko_secrets" {
+  name = "secrets-access"
+  role = aws_iam_role.lambda_gecko.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "secretsmanager:GetSecretValue"
+        Resource = var.crypto_api_arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "lambda_posts_secrets" {
+  name = "secrets-access"
+  role = aws_iam_role.lambda_posts.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "secretsmanager:GetSecretValue"
+        Resource = var.blue_sky_api_arn
+      }
+    ]
+  })
+}
+
+# Control d'accessos per a Lake Formation
+resource "aws_iam_role" "lakeformation_service_role" {
+  name = "LakeFormationServiceRole"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "lakeformation.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+
+resource "aws_iam_role_policy_attachment" "lakeformation_s3_access" {
+  role       = aws_iam_role.lakeformation_service_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "glue_service_managed" {
+  role       = aws_iam_role.glue_service_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy" "glue_lakeformation_access" {
+  name   = "glue-lakeformation-access"
+  role   = aws_iam_role.glue_service_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "lakeformation:GetDataAccess"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "glue_service_s3_access" {
+  name   = "glue-etl-s3-access"
+  role   = aws_iam_role.glue_service_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ListBucket"]
+        Resource = var.datalake_bucket_arn
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Resource = [
+          "${var.datalake_bucket_arn}/bronze/*",
+          "${var.datalake_bucket_arn}/silver/*",
+          "${var.datalake_bucket_arn}/gold/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "glue_crawler_managed" {
+  role       = aws_iam_role.glue_s3_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy" "glue_crawler_lakeformation_access" {
+  name   = "glue-crawler-lakeformation-access"
+  role   = aws_iam_role.glue_s3_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "lakeformation:GetDataAccess"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "glue_crawler_s3_access" {
+  name   = "glue-crawler-s3-access"
+  role   = aws_iam_role.glue_s3_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ListBucket"]
+        Resource = var.datalake_bucket_arn
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Resource = [
+          "${var.datalake_bucket_arn}/bronze/*",
+          "${var.datalake_bucket_arn}/silver/*",
+          "${var.datalake_bucket_arn}/gold/*"
+        ]
+      }
+    ]
+  })
 }

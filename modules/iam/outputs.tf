@@ -47,3 +47,8 @@ output "eventbridge_scheduler_lambda_4_role_arn" {
   description = "ARN for EventBridge Scheduler Lambda 4 Role"
   value       = aws_iam_role.eventbridge_scheduler_lambda_4.arn
 }
+
+output "lakeformation_service_role_arn" {
+  value       = aws_iam_role.lakeformation_service_role.arn
+  description = "ARN of the Lake Formation Service Role"
+}

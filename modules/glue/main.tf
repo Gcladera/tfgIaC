@@ -7,7 +7,7 @@ resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
     path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/market-ranking-bronze/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -25,7 +25,7 @@ resource "aws_glue_crawler" "bronze-crypto-sentiment" {
     path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/sentiment-bronze/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -42,7 +42,7 @@ resource "aws_glue_crawler" "bronze-crypto-trending" {
     path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/trending-bronze/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -59,7 +59,7 @@ resource "aws_glue_crawler" "bronze-posts-content" {
     path = "s3://amzn-s3-tfgdl/bronze/posts-bronze/post-content-bronze/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
     Grouping = {
       TableGroupingPolicy = "CombineCompatibleSchemas"
@@ -76,7 +76,7 @@ resource "aws_glue_crawler" "silver-crypto-market_ranking" {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/market-ranking-silver/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -93,7 +93,7 @@ resource "aws_glue_crawler" "silver-crypto-sentiment" {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/sentiment-silver/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -110,7 +110,7 @@ resource "aws_glue_crawler" "silver-crypto-trending" {
     path = "s3://amzn-s3-tfgdl/silver/crypto-silver/trending-silver/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -127,7 +127,7 @@ resource "aws_glue_crawler" "silver-posts-content" {
     path = "s3://amzn-s3-tfgdl/silver/posts-silver/post-content-silver/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
     Grouping = {
       TableGroupingPolicy = "CombineCompatibleSchemas"
@@ -144,7 +144,7 @@ resource "aws_glue_crawler" "silver-posts-relationships" {
     path = "s3://amzn-s3-tfgdl/silver/posts-silver/social-media-relationships-silver/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
     Grouping = {
       TableGroupingPolicy = "CombineCompatibleSchemas"
@@ -158,10 +158,10 @@ resource "aws_glue_crawler" "gold-posts-relationships" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/social-media-relationships-gold/"
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
     Grouping = {
       TableGroupingPolicy = "CombineCompatibleSchemas"
@@ -178,7 +178,7 @@ resource "aws_glue_crawler" "gold-crypto-market_ranking" {
     path = "s3://amzn-s3-tfgdl/gold/crypto-gold/market-ranking-gold/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -195,7 +195,7 @@ resource "aws_glue_crawler" "gold-crypto-sentiment" {
     path = "s3://amzn-s3-tfgdl/gold/crypto-gold/sentiment-gold/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -212,7 +212,7 @@ resource "aws_glue_crawler" "gold-crypto-trending" {
     path = "s3://amzn-s3-tfgdl/gold/crypto-gold/trending-gold/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
   })
   schema_change_policy {
@@ -229,7 +229,7 @@ resource "aws_glue_crawler" "gold-posts-content" {
     path = "s3://amzn-s3-tfgdl/gold/posts-gold/post-content-gold/"
   }
   configuration = jsonencode({
-    Version = 1.0
+    Version              = 1.0
     CreatePartitionIndex = true
     Grouping = {
       TableGroupingPolicy = "CombineCompatibleSchemas"
@@ -244,12 +244,7 @@ resource "aws_glue_catalog_database" "schema_database" {
   name        = "glue-crawler-schema-database"
   catalog_id  = "544820269502"
   description = "Contenedor de Metadatos: Es una carpeta virtual donde el Crawler guardará las definiciones de las tablas (esquemas, formatos y rutas) que encuentre en tu S3 o base de datos origen. Organización: Permite que herramientas como Amazon Athena o Amazon Redshift Spectrum sepan dónde buscar las tablas para hacer consultas SQL."
-  create_table_default_permission {
-    permissions = ["ALL"]
-    principal {
-      data_lake_principal_identifier = "IAM_ALLOWED_PRINCIPALS"
-    }
-  }
+
 }
 #ETL Job
 #----------------------- 
@@ -259,7 +254,7 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
-  
+
   command {
     script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/JobsETLPostsBronzeSIlver.py"
   }
@@ -284,7 +279,7 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
-  
+
   command {
     script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/relationshipsBronzeSilver.py"
   }
@@ -310,7 +305,7 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
   glue_version      = "5.0"
   worker_type       = "G.1X"
   number_of_workers = 10
-  
+
   command {
     script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/ETLjobCryptoBronzeSilver.py"
   }
