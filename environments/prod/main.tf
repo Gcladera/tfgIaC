@@ -46,16 +46,34 @@ module "efs" {
 
 module "iam" {
   source = "../../modules/iam"
+  blue_sky_api_arn     = module.secretsmanager.blue_sky_api_arn
+  crypto_api_arn       = module.secretsmanager.crypto_api_arn
+  schema_database_name = module.glue.schema_database_name
+  datalake_bucket_arn  = module.s3.datalake_bucket_arn
 }
 module "vpc" {
   source = "../../modules/vpc"
+}
+
+module "athena" {
+  source = "../../modules/athena"
 }
 
 provider "aws" {
   region = "eu-north-1"
 }
 
-import {
-  to = aws_security_group.efs_grafana
-  id = "sg-0223778e1f3b6bf8b"
+module "secretsmanager" {
+  source = "../../modules/secretsmanager"
+}
+
+module "lakeformation" {
+  source                         = "../../modules/lakeformation"
+  s3_bucket_arn                  = module.s3.datalake_bucket_arn
+  lakeformation_service_role_arn = module.iam.lakeformation_service_role_arn
+  glue_service_role_arn          = module.iam.glue_service_role_arn
+  glue_job_role_arn              = module.iam.glue_service_role_arn
+  glue_s3_role_arn               = module.iam.glue_s3_role_arn
+  glue_database_name             = module.glue.schema_database_name
+  grafana_task_role_arn          = module.iam.grafana_ecs_task_execution_role_arn
 }

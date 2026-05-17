@@ -1,10 +1,69 @@
 {
   "version": 4,
   "terraform_version": "1.15.3",
-  "serial": 425,
+  "serial": 150,
   "lineage": "bd6dd171-5a02-cbe1-2fb7-ad0239e60199",
   "outputs": {},
   "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_athena_workgroup",
+      "name": "primary",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:athena:eu-north-1:544820269502:workgroup/primary",
+            "configuration": [
+              {
+                "bytes_scanned_cutoff_per_query": 0,
+                "customer_content_encryption_configuration": [],
+                "enable_minimum_encryption_configuration": false,
+                "enforce_workgroup_configuration": true,
+                "engine_version": [
+                  {
+                    "effective_engine_version": "Athena engine version 3",
+                    "selected_engine_version": "AUTO"
+                  }
+                ],
+                "execution_role": "",
+                "identity_center_configuration": [],
+                "managed_query_results_configuration": [
+                  {
+                    "enabled": false,
+                    "encryption_configuration": []
+                  }
+                ],
+                "monitoring_configuration": [],
+                "publish_cloudwatch_metrics_enabled": true,
+                "query_results_s3_access_grants_configuration": [],
+                "requester_pays_enabled": false,
+                "result_configuration": [
+                  {
+                    "acl_configuration": [],
+                    "encryption_configuration": [],
+                    "expected_bucket_owner": "",
+                    "output_location": "s3://s3-athena-query-results-tfgdl/"
+                  }
+                ]
+              }
+            ],
+            "description": "",
+            "force_destroy": false,
+            "id": "primary",
+            "name": "primary",
+            "region": "eu-north-1",
+            "state": "ENABLED",
+            "tags": {},
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
     {
       "mode": "managed",
       "type": "aws_security_group",
@@ -1050,7 +1109,7 @@
           },
           "sensitive_attributes": [],
           "identity_schema_version": 0,
-          "private": "bnVsbA=="
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
         }
       ]
     },
@@ -1686,7 +1745,7 @@
                 "dlq_event_queue_arn": "",
                 "event_queue_arn": "",
                 "exclusions": [],
-                "path": "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/",
+                "path": "s3://amzn-s3-tfgdl/gold/posts-gold/social-media-relationships-gold/",
                 "sample_size": 0
               }
             ],
@@ -2215,7 +2274,7 @@
             "name": "JobsETLPostsBronzeSIlver.py",
             "region": "eu-north-1"
           },
-          "private": "bnVsbA==",
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ==",
           "dependencies": [
             "module.iam.aws_iam_role.glue_service_role"
           ]
@@ -2289,7 +2348,7 @@
             "name": "relationshipsBronzeSilver.py",
             "region": "eu-north-1"
           },
-          "private": "bnVsbA==",
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ==",
           "dependencies": [
             "module.iam.aws_iam_role.glue_service_role"
           ]
@@ -2503,21 +2562,12 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":[\"glue.amazonaws.com\",\"lakeformation.amazonaws.com\"]}}],\"Version\":\"2012-10-17\"}",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"glue.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
             "create_date": "2026-03-20T15:46:16Z",
             "description": "",
             "force_detach_policies": false,
             "id": "AWSGlueServiceRole-S3TFG",
-            "inline_policy": [
-              {
-                "name": "glue-crawler-lakeformation-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
-              },
-              {
-                "name": "glue-crawler-s3-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\",\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\",\"arn:aws:s3:::amzn-s3-tfgdl/gold/*\"]}]}"
-              }
-            ],
+            "inline_policy": [],
             "managed_policy_arns": [
               "arn:aws:iam::544820269502:policy/service-role/AWSGlueServiceRole-S3TFG-EZCRC-s3Policy",
               "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess",
@@ -2539,7 +2589,7 @@
             "account_id": "544820269502",
             "name": "AWSGlueServiceRole-S3TFG"
           },
-          "private": "bnVsbA=="
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
         }
       ]
     },
@@ -2554,21 +2604,12 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"544820269502\"}},\"Effect\":\"Allow\",\"Principal\":{\"Service\":[\"glue.amazonaws.com\",\"lakeformation.amazonaws.com\"]}}],\"Version\":\"2012-10-17\"}",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"544820269502\"}},\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"glue.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
             "create_date": "2026-03-20T16:13:50Z",
             "description": "",
             "force_detach_policies": false,
             "id": "AWSGlueServiceRole",
-            "inline_policy": [
-              {
-                "name": "glue-etl-s3-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\",\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\",\"arn:aws:s3:::amzn-s3-tfgdl/gold/*\"]}]}"
-              },
-              {
-                "name": "glue-lakeformation-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
-              }
-            ],
+            "inline_policy": [],
             "managed_policy_arns": [
               "arn:aws:iam::544820269502:policy/service-role/AWSGlueServiceRole-EZCRC-s3Policy",
               "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess",
@@ -2591,7 +2632,7 @@
             "account_id": "544820269502",
             "name": "AWSGlueServiceRole"
           },
-          "private": "bnVsbA=="
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
         }
       ]
     },
@@ -2611,12 +2652,7 @@
             "description": "",
             "force_detach_policies": false,
             "id": "grafana-ecsTaskExecutionRole",
-            "inline_policy": [
-              {
-                "name": "grafana-ecs-task-athena-lf",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"athena:*\",\"glue:GetDatabase\",\"glue:GetDatabases\",\"glue:GetTable\",\"glue:GetTables\",\"glue:GetPartition\",\"glue:GetPartitions\",\"glue:BatchGetPartition\",\"lakeformation:GetDataAccess\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"s3:GetBucketLocation\",\"s3:GetObject\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\",\"s3:ListMultipartUploadParts\",\"s3:AbortMultipartUpload\",\"s3:PutObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::s3-athena-query-results-tfgdl\",\"arn:aws:s3:::s3-athena-query-results-tfgdl/*\",\"arn:aws:s3:::amzn-s3-tfgdl\",\"arn:aws:s3:::amzn-s3-tfgdl/*\"]}]}"
-              }
-            ],
+            "inline_policy": [],
             "managed_policy_arns": [
               "arn:aws:iam::544820269502:policy/AthenagrafanaoficialPolicy"
             ],
@@ -2682,45 +2718,6 @@
       "module": "module.iam",
       "mode": "managed",
       "type": "aws_iam_role",
-      "name": "lakeformation_service_role",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:iam::544820269502:role/LakeFormationServiceRole",
-            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lakeformation.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
-            "create_date": "2026-05-17T16:20:55Z",
-            "description": "",
-            "force_detach_policies": false,
-            "id": "LakeFormationServiceRole",
-            "inline_policy": [],
-            "managed_policy_arns": [
-              "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-            ],
-            "max_session_duration": 3600,
-            "name": "LakeFormationServiceRole",
-            "name_prefix": "",
-            "path": "/",
-            "permissions_boundary": "",
-            "tags": {},
-            "tags_all": {},
-            "unique_id": "AROAX5WORSG7IUR73AT2A"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "LakeFormationServiceRole"
-          },
-          "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role",
       "name": "lambda_gecko",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
@@ -2737,10 +2734,6 @@
               {
                 "name": "LambdaCryptoS3Access",
                 "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObject\",\"s3:GetObject\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl/*\"}]}"
-              },
-              {
-                "name": "secrets-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"secretsmanager:GetSecretValue\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw\"}]}"
               }
             ],
             "managed_policy_arns": [
@@ -2787,10 +2780,6 @@
               {
                 "name": "lambdaPostsS3access",
                 "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl/*\"],\"Sid\":\"Statement1\"}]}"
-              },
-              {
-                "name": "secrets-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"secretsmanager:GetSecretValue\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM\"}]}"
               }
             ],
             "managed_policy_arns": [
@@ -2833,13 +2822,9 @@
             "description": "",
             "force_detach_policies": false,
             "id": "lambda-silver-role",
-            "inline_policy": [
-              {
-                "name": "lambda-silver-s3-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"s3:ListBucket\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:GetObjectVersion\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\"},{\"Action\":[\"s3:PutObject\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\"}]}"
-              }
-            ],
+            "inline_policy": [],
             "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonS3FullAccess",
               "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
             ],
             "max_session_duration": 3600,
@@ -2903,336 +2888,6 @@
     {
       "module": "module.iam",
       "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "glue_crawler_lakeformation_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole-S3TFG:glue-crawler-lakeformation-access",
-            "name": "glue-crawler-lakeformation-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "glue-crawler-lakeformation-access",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "glue_crawler_s3_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole-S3TFG:glue-crawler-s3-access",
-            "name": "glue-crawler-s3-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\",\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\",\"arn:aws:s3:::amzn-s3-tfgdl/gold/*\"]}]}",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "glue-crawler-s3-access",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "glue_lakeformation_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole:glue-lakeformation-access",
-            "name": "glue-lakeformation-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
-            "role": "AWSGlueServiceRole"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "glue-lakeformation-access",
-            "role": "AWSGlueServiceRole"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "glue_service_s3_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole:glue-etl-s3-access",
-            "name": "glue-etl-s3-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\",\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\",\"arn:aws:s3:::amzn-s3-tfgdl/gold/*\"]}]}",
-            "role": "AWSGlueServiceRole"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "glue-etl-s3-access",
-            "role": "AWSGlueServiceRole"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "grafana_ecs_task_athena_lakeformation",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "grafana-ecsTaskExecutionRole:grafana-ecs-task-athena-lf",
-            "name": "grafana-ecs-task-athena-lf",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"athena:*\",\"glue:GetDatabase\",\"glue:GetDatabases\",\"glue:GetTable\",\"glue:GetTables\",\"glue:GetPartition\",\"glue:GetPartitions\",\"glue:BatchGetPartition\",\"lakeformation:GetDataAccess\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"s3:GetBucketLocation\",\"s3:GetObject\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\",\"s3:ListMultipartUploadParts\",\"s3:AbortMultipartUpload\",\"s3:PutObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::s3-athena-query-results-tfgdl\",\"arn:aws:s3:::s3-athena-query-results-tfgdl/*\",\"arn:aws:s3:::amzn-s3-tfgdl\",\"arn:aws:s3:::amzn-s3-tfgdl/*\"]}]}",
-            "role": "grafana-ecsTaskExecutionRole"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "grafana-ecs-task-athena-lf",
-            "role": "grafana-ecsTaskExecutionRole"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "lambda_gecko_secrets",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "lambda-gecko-role-d1cyk3hi:secrets-access",
-            "name": "secrets-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"secretsmanager:GetSecretValue\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw\"}]}",
-            "role": "lambda-gecko-role-d1cyk3hi"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "secrets-access",
-            "role": "lambda-gecko-role-d1cyk3hi"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lambda_gecko",
-            "module.secretsmanager.aws_secretsmanager_secret.crypto_api"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "lambda_posts_secrets",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "lambda-posts-role-p6kfn5ls:secrets-access",
-            "name": "secrets-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"secretsmanager:GetSecretValue\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM\"}]}",
-            "role": "lambda-posts-role-p6kfn5ls"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "secrets-access",
-            "role": "lambda-posts-role-p6kfn5ls"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lambda_posts",
-            "module.secretsmanager.aws_secretsmanager_secret.blue_sky_api"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy",
-      "name": "lambda_silver_s3_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "lambda-silver-role:lambda-silver-s3-access",
-            "name": "lambda-silver-s3-access",
-            "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"s3:ListBucket\",\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl\"},{\"Action\":[\"s3:GetObject\",\"s3:GetObjectVersion\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl/bronze/*\"},{\"Action\":[\"s3:PutObject\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:s3:::amzn-s3-tfgdl/silver/*\"}]}",
-            "role": "lambda-silver-role"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "name": "lambda-silver-s3-access",
-            "role": "lambda-silver-role"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lambda_silver",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy_attachment",
-      "name": "glue_crawler_managed",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole-S3TFG/arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "role": "AWSGlueServiceRole-S3TFG"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy_attachment",
-      "name": "glue_service_managed",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "AWSGlueServiceRole/arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "role": "AWSGlueServiceRole"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-            "role": "AWSGlueServiceRole"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_role_policy_attachment",
-      "name": "lakeformation_s3_access",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "LakeFormationServiceRole/arn:aws:iam::aws:policy/AmazonS3FullAccess",
-            "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-            "role": "LakeFormationServiceRole"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-            "role": "LakeFormationServiceRole"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lakeformation_service_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
       "type": "aws_iam_role_policy_attachment",
       "name": "lambda_gecko_vpc_access",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
@@ -3282,6 +2937,34 @@
           "private": "bnVsbA==",
           "dependencies": [
             "module.iam.aws_iam_role.lambda_posts"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "lambda_silver_s3_access",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "lambda-silver-role/arn:aws:iam::aws:policy/AmazonS3FullAccess",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+            "role": "lambda-silver-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "544820269502",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+            "role": "lambda-silver-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.lambda_silver"
           ]
         }
       ]
@@ -3349,988 +3032,6 @@
       ]
     },
     {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_user_policy_attachment",
-      "name": "grau_cladera_athena",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "grau_cladera/arn:aws:iam::aws:policy/AmazonAthenaFullAccess",
-            "policy_arn": "arn:aws:iam::aws:policy/AmazonAthenaFullAccess",
-            "user": "grau_cladera"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "policy_arn": "arn:aws:iam::aws:policy/AmazonAthenaFullAccess",
-            "user": "grau_cladera"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_user.grau_cladera"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.iam",
-      "mode": "managed",
-      "type": "aws_iam_user_policy_attachment",
-      "name": "grau_cladera_lakeformation",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "id": "grau_cladera/arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin",
-            "policy_arn": "arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin",
-            "user": "grau_cladera"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "policy_arn": "arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin",
-            "user": "grau_cladera"
-          },
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_user.grau_cladera"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "data",
-      "type": "aws_caller_identity",
-      "name": "grau",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "account_id": "544820269502",
-            "arn": "arn:aws:iam::544820269502:user/grau_cladera",
-            "id": "544820269502",
-            "user_id": "AIDAX5WORSG7NSIGGSBIW"
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_data_lake_settings",
-      "name": "settings",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "admins": [
-              "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-              "arn:aws:iam::544820269502:user/grau_cladera"
-            ],
-            "allow_external_data_filtering": false,
-            "allow_full_table_external_data_access": false,
-            "authorized_session_tag_value_list": [],
-            "catalog_id": null,
-            "create_database_default_permissions": [],
-            "create_table_default_permissions": [],
-            "external_data_filtering_allow_list": [],
-            "id": "3607174760",
-            "parameters": {
-              "CROSS_ACCOUNT_VERSION": "4",
-              "SET_CONTEXT": "TRUE"
-            },
-            "read_only_admins": [],
-            "region": "eu-north-1",
-            "trusted_resource_owners": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.lakeformation.data.aws_caller_identity.grau"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "database_glue_permissions",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [
-              {
-                "catalog_id": "544820269502",
-                "name": "glue-crawler-schema-database"
-              }
-            ],
-            "id": "803627749",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "CREATE_TABLE",
-              "DESCRIBE"
-            ],
-            "permissions_with_grant_option": [
-              "ALL",
-              "ALTER",
-              "CREATE_TABLE",
-              "DESCRIBE",
-              "DROP"
-            ],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [
-              {
-                "catalog_id": "544820269502",
-                "name": "glue-crawler-schema-database"
-              }
-            ],
-            "id": "3712697085",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "CREATE_TABLE",
-              "DESCRIBE"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "database_grafana_permissions",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [
-              {
-                "catalog_id": "544820269502",
-                "name": "glue-crawler-schema-database"
-              }
-            ],
-            "id": "1625074659",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DESCRIBE"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "location_bronze",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "index_key": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "2954249003",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "2801434445",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "2877055647",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:user/grau_cladera",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "211873709",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:user/grau_cladera",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "location_gold",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "index_key": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "503343820",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "2286190169",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "4053715868",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:user/grau_cladera",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "1368009769",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:user/grau_cladera",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "location_silver",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "index_key": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "543928606",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "914853240",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "989958314",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:user/grau_cladera",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [
-              {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-                "catalog_id": "544820269502"
-              }
-            ],
-            "database": [],
-            "id": "2631736728",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "permissions_with_grant_option": [
-              "DATA_LOCATION_ACCESS"
-            ],
-            "principal": "arn:aws:iam::544820269502:user/grau_cladera",
-            "region": "eu-north-1",
-            "table": [],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution",
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
-            "module.lakeformation.data.aws_caller_identity.grau",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "tables_glue_permissions",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [],
-            "id": "1370568857",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DESCRIBE",
-              "INSERT",
-              "SELECT"
-            ],
-            "permissions_with_grant_option": [
-              "ALL",
-              "ALTER",
-              "DELETE",
-              "DESCRIBE",
-              "DROP",
-              "INSERT",
-              "SELECT"
-            ],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
-            "region": "eu-north-1",
-            "table": [
-              {
-                "catalog_id": "544820269502",
-                "database_name": "glue-crawler-schema-database",
-                "name": "",
-                "wildcard": true
-              }
-            ],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        },
-        {
-          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [],
-            "id": "3301024837",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DESCRIBE",
-              "INSERT",
-              "SELECT"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
-            "region": "eu-north-1",
-            "table": [
-              {
-                "catalog_id": "544820269502",
-                "database_name": "glue-crawler-schema-database",
-                "name": "",
-                "wildcard": true
-              }
-            ],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.glue_s3_role",
-            "module.iam.aws_iam_role.glue_service_role"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_permissions",
-      "name": "tables_grafana_permissions",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "catalog_id": null,
-            "catalog_resource": false,
-            "data_cells_filter": [],
-            "data_location": [],
-            "database": [],
-            "id": "3590563674",
-            "lf_tag": [],
-            "lf_tag_policy": [],
-            "permissions": [
-              "DESCRIBE",
-              "SELECT"
-            ],
-            "permissions_with_grant_option": [],
-            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
-            "region": "eu-north-1",
-            "table": [
-              {
-                "catalog_id": "544820269502",
-                "database_name": "glue-crawler-schema-database",
-                "name": "",
-                "wildcard": true
-              }
-            ],
-            "table_with_columns": []
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.glue.aws_glue_catalog_database.schema_database",
-            "module.iam.aws_iam_role.grafana_ecs_task_execution"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_resource",
-      "name": "bronze_folder_registration",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-            "hybrid_access_enabled": false,
-            "id": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
-            "last_modified": null,
-            "region": "eu-north-1",
-            "role_arn": "arn:aws:iam::544820269502:role/LakeFormationServiceRole",
-            "use_service_linked_role": null,
-            "with_federation": false,
-            "with_privileged_access": false
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_resource",
-      "name": "gold_folder_registration",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-            "hybrid_access_enabled": false,
-            "id": "arn:aws:s3:::amzn-s3-tfgdl/gold",
-            "last_modified": null,
-            "region": "eu-north-1",
-            "role_arn": "arn:aws:iam::544820269502:role/LakeFormationServiceRole",
-            "use_service_linked_role": null,
-            "with_federation": false,
-            "with_privileged_access": false
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_resource",
-      "name": "silver_folder_registration",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-            "hybrid_access_enabled": false,
-            "id": "arn:aws:s3:::amzn-s3-tfgdl/silver",
-            "last_modified": null,
-            "region": "eu-north-1",
-            "role_arn": "arn:aws:iam::544820269502:role/LakeFormationServiceRole",
-            "use_service_linked_role": null,
-            "with_federation": false,
-            "with_privileged_access": false
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
-          ]
-        }
-      ]
-    },
-    {
       "module": "module.lambda",
       "mode": "managed",
       "type": "aws_lambda_function",
@@ -4353,7 +3054,6 @@
             "environment": [
               {
                 "variables": {
-                  "SECRET_NAME": "CryptoAPICredentials",
                   "TZ": "Europe/Madrid"
                 }
               }
@@ -4372,7 +3072,7 @@
             "image_uri": "",
             "invoke_arn": "arn:aws:apigateway:eu-north-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-north-1:544820269502:function:lambda-gecko/invocations",
             "kms_key_arn": "",
-            "last_modified": "2026-05-17T14:47:04.000+0000",
+            "last_modified": "2026-05-09T09:28:58.000+0000",
             "layers": [
               "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22"
             ],
@@ -4711,7 +3411,6 @@
             "environment": [
               {
                 "variables": {
-                  "SECRET_NAME": "BlueSkyAPICredentials",
                   "TZ": "Europe/Madrid"
                 }
               }
@@ -4730,7 +3429,7 @@
             "image_uri": "",
             "invoke_arn": "arn:aws:apigateway:eu-north-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-north-1:544820269502:function:lambda-posts/invocations",
             "kms_key_arn": "",
-            "last_modified": "2026-05-17T14:47:04.000+0000",
+            "last_modified": "2026-05-08T19:38:12.000+0000",
             "layers": [
               "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22"
             ],
@@ -5045,188 +3744,6 @@
             "region": "eu-north-1"
           },
           "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMCJ9"
-        }
-      ]
-    },
-    {
-      "module": "module.secretsmanager",
-      "mode": "managed",
-      "type": "aws_secretsmanager_secret",
-      "name": "blue_sky_api",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM",
-            "description": "",
-            "force_overwrite_replica_secret": false,
-            "id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM",
-            "kms_key_id": "",
-            "name": "BlueSkyAPICredentials",
-            "name_prefix": "",
-            "policy": "",
-            "recovery_window_in_days": 30,
-            "region": "eu-north-1",
-            "replica": [],
-            "tags": {},
-            "tags_all": {}
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM"
-          },
-          "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "module": "module.secretsmanager",
-      "mode": "managed",
-      "type": "aws_secretsmanager_secret",
-      "name": "crypto_api",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw",
-            "description": "",
-            "force_overwrite_replica_secret": false,
-            "id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw",
-            "kms_key_id": "",
-            "name": "CryptoAPICredentials",
-            "name_prefix": "",
-            "policy": "",
-            "recovery_window_in_days": 30,
-            "region": "eu-north-1",
-            "replica": [],
-            "tags": {},
-            "tags_all": {}
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "identity": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw"
-          },
-          "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "module": "module.secretsmanager",
-      "mode": "managed",
-      "type": "aws_secretsmanager_secret_version",
-      "name": "blue_sky_api",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM",
-            "has_secret_string_wo": null,
-            "id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM|cecfd7ee-040f-4368-a6c3-021834b202cf",
-            "region": "eu-north-1",
-            "secret_binary": "",
-            "secret_id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM",
-            "secret_string": "{\"BS_PASSWORD\":\"mENp8HEbpv9kUid\",\"BS_USER\":\"grau.cladera@autonoma.cat\"}",
-            "secret_string_wo": null,
-            "secret_string_wo_version": null,
-            "version_id": "cecfd7ee-040f-4368-a6c3-021834b202cf",
-            "version_stages": [
-              "AWSCURRENT"
-            ]
-          },
-          "sensitive_attributes": [
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_binary"
-              }
-            ],
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_string"
-              }
-            ],
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_string_wo"
-              }
-            ]
-          ],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "region": "eu-north-1",
-            "secret_id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:BlueSkyAPICredentials-IKejlM",
-            "version_id": "cecfd7ee-040f-4368-a6c3-021834b202cf"
-          },
-          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ==",
-          "dependencies": [
-            "module.secretsmanager.aws_secretsmanager_secret.blue_sky_api"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.secretsmanager",
-      "mode": "managed",
-      "type": "aws_secretsmanager_secret_version",
-      "name": "crypto_api",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw",
-            "has_secret_string_wo": null,
-            "id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw|a6579cea-bc09-42fb-abdf-4bfcfaec376a",
-            "region": "eu-north-1",
-            "secret_binary": "",
-            "secret_id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw",
-            "secret_string": "{\"COINGECKO_API_KEY\":\"CG-jKMgn4fNoUstQL6WD93fYi2E\"}",
-            "secret_string_wo": null,
-            "secret_string_wo_version": null,
-            "version_id": "a6579cea-bc09-42fb-abdf-4bfcfaec376a",
-            "version_stages": [
-              "AWSCURRENT"
-            ]
-          },
-          "sensitive_attributes": [
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_binary"
-              }
-            ],
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_string"
-              }
-            ],
-            [
-              {
-                "type": "get_attr",
-                "value": "secret_string_wo"
-              }
-            ]
-          ],
-          "identity_schema_version": 0,
-          "identity": {
-            "account_id": "544820269502",
-            "region": "eu-north-1",
-            "secret_id": "arn:aws:secretsmanager:eu-north-1:544820269502:secret:CryptoAPICredentials-Za0Ldw",
-            "version_id": "a6579cea-bc09-42fb-abdf-4bfcfaec376a"
-          },
-          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ==",
-          "dependencies": [
-            "module.secretsmanager.aws_secretsmanager_secret.crypto_api"
-          ]
         }
       ]
     },
