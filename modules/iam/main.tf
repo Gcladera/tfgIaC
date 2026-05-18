@@ -243,14 +243,14 @@ resource "aws_iam_role" "grafana_ecs_task_execution" {
 }
 
 resource "aws_iam_role_policy" "grafana_ecs_task_athena_lakeformation" {
-  name   = "grafana-ecs-task-athena-lf"
-  role   = aws_iam_role.grafana_ecs_task_execution.id
+  name = "grafana-ecs-task-athena-lf"
+  role = aws_iam_role.grafana_ecs_task_execution.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = [
+        Effect = "Allow"
+        Action = [
           "athena:*",
           "glue:GetDatabase",
           "glue:GetDatabases",
@@ -264,8 +264,8 @@ resource "aws_iam_role_policy" "grafana_ecs_task_athena_lakeformation" {
         Resource = "*"
       },
       {
-        Effect   = "Allow"
-        Action   = [
+        Effect = "Allow"
+        Action = [
           "s3:GetBucketLocation",
           "s3:GetObject",
           "s3:ListBucket",
@@ -347,7 +347,7 @@ resource "aws_iam_user_policy_attachment" "grau_cladera_athena" {
 
 resource "aws_iam_user_policy_attachment" "grau_cladera_lakeformation" {
   user       = aws_iam_user.grau_cladera.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin"
+  policy_arn = aws_iam_policy.lakeformation_AdminAccess.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_gecko_vpc_access" {
@@ -381,8 +381,8 @@ resource "aws_iam_role_policy_attachment" "lambda_silver_vpc_access" {
 }
 
 resource "aws_iam_role_policy" "lambda_silver_s3_access" {
-  name   = "lambda-silver-s3-access"
-  role   = aws_iam_role.lambda_silver.id
+  name = "lambda-silver-s3-access"
+  role = aws_iam_role.lambda_silver.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -464,14 +464,14 @@ resource "aws_iam_role_policy_attachment" "glue_service_managed" {
 }
 
 resource "aws_iam_role_policy" "glue_lakeformation_access" {
-  name   = "glue-lakeformation-access"
-  role   = aws_iam_role.glue_service_role.id
+  name = "glue-lakeformation-access"
+  role = aws_iam_role.glue_service_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
         Effect   = "Allow"
-        Action   = "lakeformation:GetDataAccess"
+        Action   = "lakeformation:*"
         Resource = "*"
       }
     ]
@@ -479,8 +479,8 @@ resource "aws_iam_role_policy" "glue_lakeformation_access" {
 }
 
 resource "aws_iam_role_policy" "glue_service_s3_access" {
-  name   = "glue-etl-s3-access"
-  role   = aws_iam_role.glue_service_role.id
+  name = "glue-etl-s3-access"
+  role = aws_iam_role.glue_service_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -490,8 +490,8 @@ resource "aws_iam_role_policy" "glue_service_s3_access" {
         Resource = var.datalake_bucket_arn
       },
       {
-        Effect   = "Allow"
-        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Effect = "Allow"
+        Action = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
         Resource = [
           "${var.datalake_bucket_arn}/bronze/*",
           "${var.datalake_bucket_arn}/silver/*",
@@ -508,8 +508,8 @@ resource "aws_iam_role_policy_attachment" "glue_crawler_managed" {
 }
 
 resource "aws_iam_role_policy" "glue_crawler_lakeformation_access" {
-  name   = "glue-crawler-lakeformation-access"
-  role   = aws_iam_role.glue_s3_role.id
+  name = "glue-crawler-lakeformation-access"
+  role = aws_iam_role.glue_s3_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -523,8 +523,8 @@ resource "aws_iam_role_policy" "glue_crawler_lakeformation_access" {
 }
 
 resource "aws_iam_role_policy" "glue_crawler_s3_access" {
-  name   = "glue-crawler-s3-access"
-  role   = aws_iam_role.glue_s3_role.id
+  name = "glue-crawler-s3-access"
+  role = aws_iam_role.glue_s3_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -534,13 +534,68 @@ resource "aws_iam_role_policy" "glue_crawler_s3_access" {
         Resource = var.datalake_bucket_arn
       },
       {
-        Effect   = "Allow"
-        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Effect = "Allow"
+        Action = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
         Resource = [
           "${var.datalake_bucket_arn}/bronze/*",
           "${var.datalake_bucket_arn}/silver/*",
           "${var.datalake_bucket_arn}/gold/*"
         ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "lakeformation_AdminAccess" {
+  name        = "LakeFormationCustomAdminPolicy"
+  description = "Politica personalizada para administrar Lake Formation sin bloqueos"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AWSLakeFormationDataAdminAllow"
+        Effect = "Allow"
+        Action = [
+          "lakeformation:*",
+          "lakeformation:PutDataLakeSettings",
+          "cloudtrail:DescribeTrails",
+          "cloudtrail:LookupEvents",
+          "glue:CreateCatalog",
+          "glue:UpdateCatalog",
+          "glue:DeleteCatalog",
+          "glue:GetCatalog",
+          "glue:GetCatalogs",
+          "glue:GetDatabase",
+          "glue:GetDatabases",
+          "glue:CreateDatabase",
+          "glue:UpdateDatabase",
+          "glue:DeleteDatabase",
+          "glue:GetConnections",
+          "glue:SearchTables",
+          "glue:GetTable",
+          "glue:CreateTable",
+          "glue:UpdateTable",
+          "glue:DeleteTable",
+          "glue:GetTableVersions",
+          "glue:GetPartitions",
+          "glue:GetTables",
+          "glue:ListWorkflows",
+          "glue:BatchGetWorkflows",
+          "glue:DeleteWorkflow",
+          "glue:GetWorkflowRuns",
+          "glue:StartWorkflowRun",
+          "glue:GetWorkflow",
+          "s3:ListBucket",
+          "s3:GetBucketLocation",
+          "s3:ListAllMyBuckets",
+          "s3:GetBucketAcl",
+          "iam:ListUsers",
+          "iam:ListRoles",
+          "iam:GetRole",
+          "iam:GetRolePolicy"
+        ]
+        Resource = "*"
       }
     ]
   })

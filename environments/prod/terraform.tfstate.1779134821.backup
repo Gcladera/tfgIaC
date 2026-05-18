@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.15.3",
-  "serial": 600,
+  "serial": 566,
   "lineage": "bd6dd171-5a02-cbe1-2fb7-ad0239e60199",
   "outputs": {},
   "resources": [
@@ -1025,7 +1025,18 @@
           "attributes": {
             "arn": "arn:aws:glue:eu-north-1:544820269502:database/glue-crawler-schema-database",
             "catalog_id": "544820269502",
-            "create_table_default_permission": [],
+            "create_table_default_permission": [
+              {
+                "permissions": [
+                  "ALL"
+                ],
+                "principal": [
+                  {
+                    "data_lake_principal_identifier": "IAM_ALLOWED_PRINCIPALS"
+                  }
+                ]
+              }
+            ],
             "description": "Contenedor de Metadatos: Es una carpeta virtual donde el Crawler guardará las definiciones de las tablas (esquemas, formatos y rutas) que encuentre en tu S3 o base de datos origen. Organización: Permite que herramientas como Amazon Athena o Amazon Redshift Spectrum sepan dónde buscar las tablas para hacer consultas SQL.",
             "federated_database": [],
             "id": "544820269502:glue-crawler-schema-database",
@@ -2369,7 +2380,7 @@
           "schema_version": 0,
           "attributes": {
             "arn": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
-            "attachment_count": 1,
+            "attachment_count": 0,
             "delay_after_policy_creation_in_ms": null,
             "description": "Politica personalizada para administrar Lake Formation sin bloqueos",
             "id": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
@@ -2378,7 +2389,7 @@
             "path": "/",
             "policy": "{\"Statement\":[{\"Action\":[\"lakeformation:*\",\"lakeformation:PutDataLakeSettings\",\"cloudtrail:DescribeTrails\",\"cloudtrail:LookupEvents\",\"glue:CreateCatalog\",\"glue:UpdateCatalog\",\"glue:DeleteCatalog\",\"glue:GetCatalog\",\"glue:GetCatalogs\",\"glue:GetDatabase\",\"glue:GetDatabases\",\"glue:CreateDatabase\",\"glue:UpdateDatabase\",\"glue:DeleteDatabase\",\"glue:GetConnections\",\"glue:SearchTables\",\"glue:GetTable\",\"glue:CreateTable\",\"glue:UpdateTable\",\"glue:DeleteTable\",\"glue:GetTableVersions\",\"glue:GetPartitions\",\"glue:GetTables\",\"glue:ListWorkflows\",\"glue:BatchGetWorkflows\",\"glue:DeleteWorkflow\",\"glue:GetWorkflowRuns\",\"glue:StartWorkflowRun\",\"glue:GetWorkflow\",\"s3:ListBucket\",\"s3:GetBucketLocation\",\"s3:ListAllMyBuckets\",\"s3:GetBucketAcl\",\"iam:ListUsers\",\"iam:ListRoles\",\"iam:GetRole\",\"iam:GetRolePolicy\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"AWSLakeFormationDataAdminAllow\"}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPAX5WORSG7CM4EOKLGO",
-            "tags": {},
+            "tags": null,
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -2660,7 +2671,7 @@
               },
               {
                 "name": "glue-lakeformation-access",
-                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:*\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
               }
             ],
             "managed_policy_arns": [
@@ -3068,7 +3079,7 @@
             "id": "AWSGlueServiceRole:glue-lakeformation-access",
             "name": "glue-lakeformation-access",
             "name_prefix": "",
-            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:*\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"lakeformation:GetDataAccess\",\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
             "role": "AWSGlueServiceRole"
           },
           "sensitive_attributes": [],
@@ -3578,11 +3589,12 @@
                 "name": "glue-crawler-schema-database"
               }
             ],
-            "id": "945529433",
+            "id": "803627749",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
-              "ALL"
+              "CREATE_TABLE",
+              "DESCRIBE"
             ],
             "permissions_with_grant_option": [],
             "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
@@ -3613,11 +3625,12 @@
                 "name": "glue-crawler-schema-database"
               }
             ],
-            "id": "2938591898",
+            "id": "3712697085",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
-              "ALL"
+              "CREATE_TABLE",
+              "DESCRIBE"
             ],
             "permissions_with_grant_option": [],
             "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
@@ -3682,7 +3695,7 @@
       "module": "module.lakeformation",
       "mode": "managed",
       "type": "aws_lakeformation_permissions",
-      "name": "location_datalake",
+      "name": "location_bronze",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
         {
@@ -3694,12 +3707,12 @@
             "data_cells_filter": [],
             "data_location": [
               {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl",
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
                 "catalog_id": "544820269502"
               }
             ],
             "database": [],
-            "id": "17259048",
+            "id": "2954249003",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
@@ -3719,7 +3732,7 @@
             "module.iam.aws_iam_role.glue_service_role",
             "module.iam.aws_iam_role.grafana_ecs_task_execution",
             "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.datalake_bucket_registration",
+            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
             "module.lakeformation.data.aws_caller_identity.grau",
             "module.s3.aws_s3_bucket.s3-datalake"
           ]
@@ -3733,12 +3746,12 @@
             "data_cells_filter": [],
             "data_location": [
               {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl",
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
                 "catalog_id": "544820269502"
               }
             ],
             "database": [],
-            "id": "433766800",
+            "id": "2801434445",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
@@ -3758,7 +3771,7 @@
             "module.iam.aws_iam_role.glue_service_role",
             "module.iam.aws_iam_role.grafana_ecs_task_execution",
             "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.datalake_bucket_registration",
+            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
             "module.lakeformation.data.aws_caller_identity.grau",
             "module.s3.aws_s3_bucket.s3-datalake"
           ]
@@ -3772,12 +3785,12 @@
             "data_cells_filter": [],
             "data_location": [
               {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl",
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
                 "catalog_id": "544820269502"
               }
             ],
             "database": [],
-            "id": "909237227",
+            "id": "2877055647",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
@@ -3797,7 +3810,7 @@
             "module.iam.aws_iam_role.glue_service_role",
             "module.iam.aws_iam_role.grafana_ecs_task_execution",
             "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.datalake_bucket_registration",
+            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
             "module.lakeformation.data.aws_caller_identity.grau",
             "module.s3.aws_s3_bucket.s3-datalake"
           ]
@@ -3811,12 +3824,12 @@
             "data_cells_filter": [],
             "data_location": [
               {
-                "arn": "arn:aws:s3:::amzn-s3-tfgdl",
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/bronze",
                 "catalog_id": "544820269502"
               }
             ],
             "database": [],
-            "id": "3948763074",
+            "id": "211873709",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
@@ -3838,7 +3851,341 @@
             "module.iam.aws_iam_role.glue_service_role",
             "module.iam.aws_iam_role.grafana_ecs_task_execution",
             "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.lakeformation.aws_lakeformation_resource.datalake_bucket_registration",
+            "module.lakeformation.aws_lakeformation_resource.bronze_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.lakeformation",
+      "mode": "managed",
+      "type": "aws_lakeformation_permissions",
+      "name": "location_gold",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "503343820",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "2286190169",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "4053715868",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:user/grau_cladera",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/gold",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "1368009769",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "principal": "arn:aws:iam::544820269502:user/grau_cladera",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.gold_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.lakeformation",
+      "mode": "managed",
+      "type": "aws_lakeformation_permissions",
+      "name": "location_silver",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "543928606",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/grafana-ecsTaskExecutionRole",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "914853240",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "989958314",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [],
+            "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
+            "module.lakeformation.data.aws_caller_identity.grau",
+            "module.s3.aws_s3_bucket.s3-datalake"
+          ]
+        },
+        {
+          "index_key": "arn:aws:iam::544820269502:user/grau_cladera",
+          "schema_version": 0,
+          "attributes": {
+            "catalog_id": null,
+            "catalog_resource": false,
+            "data_cells_filter": [],
+            "data_location": [
+              {
+                "arn": "arn:aws:s3:::amzn-s3-tfgdl/silver",
+                "catalog_id": "544820269502"
+              }
+            ],
+            "database": [],
+            "id": "2631736728",
+            "lf_tag": [],
+            "lf_tag_policy": [],
+            "permissions": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "permissions_with_grant_option": [
+              "DATA_LOCATION_ACCESS"
+            ],
+            "principal": "arn:aws:iam::544820269502:user/grau_cladera",
+            "region": "eu-north-1",
+            "table": [],
+            "table_with_columns": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_role.glue_s3_role",
+            "module.iam.aws_iam_role.glue_service_role",
+            "module.iam.aws_iam_role.grafana_ecs_task_execution",
+            "module.iam.aws_iam_role.lakeformation_service_role",
+            "module.lakeformation.aws_lakeformation_resource.silver_folder_registration",
             "module.lakeformation.data.aws_caller_identity.grau",
             "module.s3.aws_s3_bucket.s3-datalake"
           ]
@@ -3861,11 +4208,15 @@
             "data_cells_filter": [],
             "data_location": [],
             "database": [],
-            "id": "1385102846",
+            "id": "2320984506",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
-              "ALL"
+              "ALTER",
+              "DESCRIBE",
+              "DROP",
+              "INSERT",
+              "SELECT"
             ],
             "permissions_with_grant_option": [],
             "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole",
@@ -3898,11 +4249,15 @@
             "data_cells_filter": [],
             "data_location": [],
             "database": [],
-            "id": "1523296930",
+            "id": "843248019",
             "lf_tag": [],
             "lf_tag_policy": [],
             "permissions": [
-              "ALL"
+              "ALTER",
+              "DESCRIBE",
+              "DROP",
+              "INSERT",
+              "SELECT"
             ],
             "permissions_with_grant_option": [],
             "principal": "arn:aws:iam::544820269502:role/service-role/AWSGlueServiceRole-S3TFG",
@@ -3969,36 +4324,6 @@
           "dependencies": [
             "module.glue.aws_glue_catalog_database.schema_database",
             "module.iam.aws_iam_role.grafana_ecs_task_execution"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.lakeformation",
-      "mode": "managed",
-      "type": "aws_lakeformation_resource",
-      "name": "datalake_bucket_registration",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:s3:::amzn-s3-tfgdl",
-            "hybrid_access_enabled": false,
-            "id": "arn:aws:s3:::amzn-s3-tfgdl",
-            "last_modified": null,
-            "region": "eu-north-1",
-            "role_arn": "arn:aws:iam::544820269502:role/LakeFormationServiceRole",
-            "use_service_linked_role": null,
-            "with_federation": false,
-            "with_privileged_access": false
-          },
-          "sensitive_attributes": [],
-          "identity_schema_version": 0,
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.iam.aws_iam_role.lakeformation_service_role",
-            "module.s3.aws_s3_bucket.s3-datalake"
           ]
         }
       ]
@@ -4678,7 +5003,7 @@
             "logging": [],
             "object_lock_configuration": [],
             "object_lock_enabled": false,
-            "policy": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::544820269502:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess\"},\"Resource\":[\"arn:aws:s3:::amzn-s3-tfgdl\",\"arn:aws:s3:::amzn-s3-tfgdl/*\"],\"Sid\":\"LakeFormationServiceLinkedRoleAccess\"}],\"Version\":\"2012-10-17\"}",
+            "policy": "",
             "region": "eu-north-1",
             "replication_configuration": [],
             "request_payer": "BucketOwner",

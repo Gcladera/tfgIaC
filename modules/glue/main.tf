@@ -152,13 +152,29 @@ resource "aws_glue_crawler" "silver-posts-relationships" {
   })
 }
 
+resource "aws_glue_crawler" "gold-posts-nodes" {
+  name          = "gold-posts-nodes"
+  database_name = "glue-crawler-schema-database"
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for social media accounts nodes"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/nodes/"
+  }
+  configuration = jsonencode({
+    Version              = 1.0
+    CreatePartitionIndex = true
+    Grouping = {
+      TableGroupingPolicy = "CombineCompatibleSchemas"
+    }
+  })
+}
 resource "aws_glue_crawler" "gold-posts-relationships" {
   name          = "gold-posts-relationships"
   database_name = "glue-crawler-schema-database"
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/"
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/relationships/"
   }
   configuration = jsonencode({
     Version              = 1.0
