@@ -1,6 +1,6 @@
 resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
   name          = "bronze-crypto-market_ranking"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -14,11 +14,17 @@ resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 resource "aws_glue_crawler" "bronze-crypto-sentiment" {
   name          = "bronze-crypto-sentiment"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -32,10 +38,16 @@ resource "aws_glue_crawler" "bronze-crypto-sentiment" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "bronze-crypto-trending" {
   name          = "bronze-crypto-trending"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -49,10 +61,16 @@ resource "aws_glue_crawler" "bronze-crypto-trending" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "bronze-posts-content" {
   name          = "bronze-posts-content"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
@@ -65,11 +83,17 @@ resource "aws_glue_crawler" "bronze-posts-content" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 resource "aws_glue_crawler" "silver-crypto-market_ranking" {
   name          = "silver-crypto-market_ranking-copy"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -83,10 +107,16 @@ resource "aws_glue_crawler" "silver-crypto-market_ranking" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "silver-crypto-sentiment" {
   name          = "silver-crypto-sentiment"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -100,10 +130,16 @@ resource "aws_glue_crawler" "silver-crypto-sentiment" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "silver-crypto-trending" {
   name          = "silver-crypto-trending"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -117,10 +153,16 @@ resource "aws_glue_crawler" "silver-crypto-trending" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "silver-posts-content" {
   name          = "silver-posts-content"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
@@ -133,11 +175,17 @@ resource "aws_glue_crawler" "silver-posts-content" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 resource "aws_glue_crawler" "silver-posts-relationships" {
   name          = "silver-posts-relationships"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
@@ -150,11 +198,17 @@ resource "aws_glue_crawler" "silver-posts-relationships" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 resource "aws_glue_crawler" "gold-posts-nodes" {
   name          = "gold-posts-nodes"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts nodes"
   s3_target {
@@ -167,10 +221,16 @@ resource "aws_glue_crawler" "gold-posts-nodes" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "gold-posts-relationships" {
   name          = "gold-posts-relationships"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
@@ -183,11 +243,17 @@ resource "aws_glue_crawler" "gold-posts-relationships" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 resource "aws_glue_crawler" "gold-crypto-market_ranking" {
   name          = "gold-crypto-market_ranking"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -201,10 +267,16 @@ resource "aws_glue_crawler" "gold-crypto-market_ranking" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "gold-crypto-sentiment" {
   name          = "gold-crypto-sentiment"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -218,10 +290,16 @@ resource "aws_glue_crawler" "gold-crypto-sentiment" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "gold-crypto-trending" {
   name          = "gold-crypto-trending"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
@@ -235,10 +313,16 @@ resource "aws_glue_crawler" "gold-crypto-trending" {
     delete_behavior = "LOG"
     update_behavior = "LOG"
   }
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 resource "aws_glue_crawler" "gold-posts-content" {
   name          = "gold-posts-content"
-  database_name = "glue-crawler-schema-database"
+  database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
@@ -251,17 +335,24 @@ resource "aws_glue_crawler" "gold-posts-content" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
 }
 
 #Glue data catalog
 #-----------------------
 
 resource "aws_glue_catalog_database" "schema_database" {
-  name        = "glue-crawler-schema-database"
+  name        = "glue-crawler-schema"
   catalog_id  = "544820269502"
-  description = "Contenedor de Metadatos: Es una carpeta virtual donde el Crawler guardará las definiciones de las tablas (esquemas, formatos y rutas) que encuentre en tu S3 o base de datos origen. Organización: Permite que herramientas como Amazon Athena o Amazon Redshift Spectrum sepan dónde buscar las tablas para hacer consultas SQL."
+  description = "Contenedor de Metadatos: carpeta virtual donde el Crawler guardará las definiciones de las tablas (esquemas, formatos y rutas) que encuentre en tu S3 o base de datos origen. Organización: Permite que herramientas como Amazon Athena o Amazon Redshift Spectrum sepan dónde buscar las tablas para hacer consultas SQL."
 
 }
+
 #ETL Job
 #----------------------- 
 resource "aws_glue_job" "JobsETLPostsBronzeSilver" {

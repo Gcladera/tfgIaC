@@ -3,10 +3,10 @@ module "s3" {
 }
 
 module "lambda" {
-  source                    = "../../modules/lambda"
-  lambda_gecko_role_arn     = module.iam.lambda_gecko_role_arn
-  lambda_posts_role_arn     = module.iam.lambda_posts_role_arn
-  lambda_private_subnet_ids = module.vpc.private_subnet_ids
+  source                           = "../../modules/lambda"
+  lambda_gecko_role_arn            = module.iam.lambda_gecko_role_arn
+  lambda_posts_role_arn            = module.iam.lambda_posts_role_arn
+  lambda_private_subnet_ids        = module.vpc.private_subnet_ids
   lambda_security_group_ids        = [aws_security_group.lambda-bronze.id]
   lambda_silver_role_arn           = module.iam.lambda_silver_role_arn
   lambda_silver_security_group_ids = [aws_security_group.lambda_silver_sg.id]
@@ -45,7 +45,7 @@ module "efs" {
 }
 
 module "iam" {
-  source = "../../modules/iam"
+  source               = "../../modules/iam"
   blue_sky_api_arn     = module.secretsmanager.blue_sky_api_arn
   crypto_api_arn       = module.secretsmanager.crypto_api_arn
   schema_database_name = module.glue.schema_database_name
@@ -65,15 +65,4 @@ provider "aws" {
 
 module "secretsmanager" {
   source = "../../modules/secretsmanager"
-}
-
-module "lakeformation" {
-  source                         = "../../modules/lakeformation"
-  s3_bucket_arn                  = module.s3.datalake_bucket_arn
-  lakeformation_service_role_arn = module.iam.lakeformation_service_role_arn
-  glue_service_role_arn          = module.iam.glue_service_role_arn
-  glue_job_role_arn              = module.iam.glue_service_role_arn
-  glue_s3_role_arn               = module.iam.glue_s3_role_arn
-  glue_database_name             = module.glue.schema_database_name
-  grafana_task_role_arn          = module.iam.grafana_ecs_task_execution_role_arn
 }
