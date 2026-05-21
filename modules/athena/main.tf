@@ -25,3 +25,27 @@ resource "aws_athena_workgroup" "primary" {
     }
   }
 }
+resource "aws_athena_workgroup" "athena-data-catalog" {
+  description   = "Workgroup for data catalog queries without Identity Center"
+  force_destroy = false
+  name          = "athena-data-catalog"
+  region        = "eu-north-1"
+  state         = "ENABLED"
+  tags          = {}
+  tags_all      = {}
+  configuration {
+    bytes_scanned_cutoff_per_query          = 1099511627776000
+    enable_minimum_encryption_configuration = false
+    enforce_workgroup_configuration         = true
+    execution_role                          = null
+    publish_cloudwatch_metrics_enabled      = false
+    requester_pays_enabled                  = false
+    engine_version {
+      selected_engine_version = "AUTO"
+    }
+    result_configuration {
+      expected_bucket_owner = null
+      output_location       = "s3://s3-athena-query-results-tfgdl/"
+    }
+  }
+}

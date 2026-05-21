@@ -1,10 +1,45 @@
 {
   "version": 4,
   "terraform_version": "1.15.4",
-  "serial": 747,
+  "serial": 742,
   "lineage": "bd6dd171-5a02-cbe1-2fb7-ad0239e60199",
   "outputs": {},
   "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_lakeformation_data_lake_settings",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "admins": [
+              "arn:aws:iam::544820269502:root",
+              "arn:aws:iam::544820269502:user/grau_cladera"
+            ],
+            "allow_external_data_filtering": false,
+            "allow_full_table_external_data_access": false,
+            "authorized_session_tag_value_list": [],
+            "catalog_id": null,
+            "create_database_default_permissions": [],
+            "create_table_default_permissions": [],
+            "external_data_filtering_allow_list": [],
+            "id": "123456789012",
+            "parameters": {
+              "CROSS_ACCOUNT_VERSION": "1",
+              "SET_CONTEXT": "TRUE"
+            },
+            "read_only_admins": [],
+            "region": "eu-north-1",
+            "trusted_resource_owners": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    },
     {
       "mode": "managed",
       "type": "aws_security_group",
@@ -2431,6 +2466,38 @@
     {
       "module": "module.iam",
       "mode": "managed",
+      "type": "aws_iam_policy",
+      "name": "lakeformation_AdminAccess",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
+            "attachment_count": 1,
+            "delay_after_policy_creation_in_ms": null,
+            "description": "Politica personalizada para administrar Lake Formation sin bloqueos",
+            "id": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
+            "name": "LakeFormationCustomAdminPolicy",
+            "name_prefix": "",
+            "path": "/",
+            "policy": "{\"Statement\":[{\"Action\":[\"lakeformation:*\",\"lakeformation:PutDataLakeSettings\",\"cloudtrail:DescribeTrails\",\"cloudtrail:LookupEvents\",\"glue:CreateCatalog\",\"glue:UpdateCatalog\",\"glue:DeleteCatalog\",\"glue:GetCatalog\",\"glue:GetCatalogs\",\"glue:GetDatabase\",\"glue:GetDatabases\",\"glue:CreateDatabase\",\"glue:UpdateDatabase\",\"glue:DeleteDatabase\",\"glue:GetConnections\",\"glue:SearchTables\",\"glue:GetTable\",\"glue:CreateTable\",\"glue:UpdateTable\",\"glue:DeleteTable\",\"glue:GetTableVersions\",\"glue:GetPartitions\",\"glue:GetTables\",\"glue:ListWorkflows\",\"glue:BatchGetWorkflows\",\"glue:DeleteWorkflow\",\"glue:GetWorkflowRuns\",\"glue:StartWorkflowRun\",\"glue:GetWorkflow\",\"s3:ListBucket\",\"s3:GetBucketLocation\",\"s3:ListAllMyBuckets\",\"s3:GetBucketAcl\",\"iam:ListUsers\",\"iam:ListRoles\",\"iam:GetRole\",\"iam:GetRolePolicy\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"AWSLakeFormationDataAdminAllow\"}],\"Version\":\"2012-10-17\"}",
+            "policy_id": "ANPAX5WORSG7CM4EOKLGO",
+            "tags": {},
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
       "type": "aws_iam_role",
       "name": "ecs_grafana_execution",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
@@ -3477,6 +3544,35 @@
           },
           "private": "bnVsbA==",
           "dependencies": [
+            "module.iam.aws_iam_user.grau_cladera"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "aws_iam_user_policy_attachment",
+      "name": "grau_cladera_lakeformation",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "grau_cladera/arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
+            "policy_arn": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
+            "user": "grau_cladera"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "544820269502",
+            "policy_arn": "arn:aws:iam::544820269502:policy/LakeFormationCustomAdminPolicy",
+            "user": "grau_cladera"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.iam.aws_iam_policy.lakeformation_AdminAccess",
             "module.iam.aws_iam_user.grau_cladera"
           ]
         }

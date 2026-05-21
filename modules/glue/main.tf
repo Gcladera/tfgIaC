@@ -86,6 +86,10 @@ resource "aws_glue_crawler" "bronze-posts-content" {
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   lake_formation_configuration {
     use_lake_formation_credentials = true
   }
@@ -175,6 +179,10 @@ resource "aws_glue_crawler" "silver-posts-content" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
@@ -198,6 +206,10 @@ resource "aws_glue_crawler" "silver-posts-relationships" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
@@ -221,6 +233,10 @@ resource "aws_glue_crawler" "gold-posts-nodes" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
@@ -243,6 +259,10 @@ resource "aws_glue_crawler" "gold-posts-relationships" {
       TableGroupingPolicy = "CombineCompatibleSchemas"
     }
   })
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
@@ -338,6 +358,10 @@ resource "aws_glue_crawler" "gold-posts-content" {
   recrawl_policy {
     recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
   }
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
   lake_formation_configuration {
     use_lake_formation_credentials = true
   }
@@ -368,7 +392,7 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
 
   default_arguments = {
     "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
-    "--conf"                         = "spark.eventLog.rolling.enabled=true"
+    "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-glue-datacatalog"      = "true"
     "--enable-job-insights"          = "true"
     "--enable-metrics"               = "true"
@@ -393,7 +417,7 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
 
   default_arguments = {
     "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
-    "--conf"                         = "spark.eventLog.rolling.enabled=true"
+    "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-auto-scaling"          = "true"
     "--enable-glue-datacatalog"      = "true"
     "--enable-job-insights"          = "true"
@@ -419,7 +443,7 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
 
   default_arguments = {
     "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
-    "--conf"                         = "spark.eventLog.rolling.enabled=true"
+    "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-glue-datacatalog"      = "true"
     "--enable-job-insights"          = "true"
     "--enable-metrics"               = "true"

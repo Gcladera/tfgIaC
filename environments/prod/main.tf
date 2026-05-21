@@ -66,3 +66,7 @@ provider "aws" {
 module "secretsmanager" {
   source = "../../modules/secretsmanager"
 }
+
+module "lakeformation" {
+  source = "../../modules/lakeformation"
+}

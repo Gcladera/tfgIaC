@@ -24,26 +24,7 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_2" {
   tags_all              = {}
 }
 
-resource "aws_iam_role" "http_function_url_tutorial" {
-  assume_role_policy = jsonencode({
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "lambda.amazonaws.com"
-      }
-    }]
-    Version = "2012-10-17"
-  })
-  description           = null
-  force_detach_policies = false
-  max_session_duration  = 3600
-  name                  = "http-function-url-tutorial-role-ja5hhi5t"
-  path                  = "/service-role/"
-  permissions_boundary  = null
-  tags                  = {}
-  tags_all              = {}
-}
+
 
 resource "aws_iam_role" "rds_monitoring" {
   assume_role_policy = jsonencode({
