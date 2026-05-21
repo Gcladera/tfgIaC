@@ -1,11 +1,11 @@
 resource "aws_ecs_cluster" "Grafana-ECS-cluster" {
-  name = "Grafana-ECS-cluster"
-  region   = "eu-north-1"
+  name   = "Grafana-ECS-cluster"
+  region = "eu-north-1"
   configuration {
-      execute_command_configuration {
-          kms_key_id = null
-          logging    = "DEFAULT"
-      }
+    execute_command_configuration {
+      kms_key_id = null
+      logging    = "DEFAULT"
+    }
   }
   setting {
     name  = "containerInsights"
@@ -17,7 +17,7 @@ resource "aws_ecs_service" "grafana" {
   name                    = "grafana-task-service-hdxytfxw"
   cluster                 = aws_ecs_cluster.Grafana-ECS-cluster.arn
   task_definition         = "grafana-task:9"
-  desired_count           = 0
+  desired_count           = 1
   launch_type             = "FARGATE"
   enable_ecs_managed_tags = true
 

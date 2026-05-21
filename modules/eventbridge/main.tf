@@ -1,11 +1,11 @@
 resource "aws_scheduler_schedule" "trigger-crypto-api" {
-  name                          = "trigger-crypto-api"
-  group_name                    = "default"
-  region                        = "eu-north-1"
-  schedule_expression           = "rate(20 minutes)"
-  schedule_expression_timezone  = "Europe/Madrid"
-  state                         = "DISABLED"
-  
+  name                         = "trigger-crypto-api"
+  group_name                   = "default"
+  region                       = "eu-north-1"
+  schedule_expression          = "rate(20 minutes)"
+  schedule_expression_timezone = "Europe/Madrid"
+  state                        = "ENABLED"
+
   flexible_time_window {
     mode = "OFF"
   }
@@ -22,13 +22,13 @@ resource "aws_scheduler_schedule" "trigger-crypto-api" {
 }
 
 resource "aws_scheduler_schedule" "trigger-bluesky-api" {
-  name                          = "trigger-bluesky-api"
-  group_name                    = "default"
-  description                   = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
-  region                        = "eu-north-1"
-  schedule_expression           = "rate(20 minutes)"
-  schedule_expression_timezone  = "Europe/Madrid"
-  state                         = "DISABLED"
+  name                         = "trigger-bluesky-api"
+  group_name                   = "default"
+  description                  = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
+  region                       = "eu-north-1"
+  schedule_expression          = "rate(20 minutes)"
+  schedule_expression_timezone = "Europe/Madrid"
+  state                        = "ENABLED"
   flexible_time_window {
     mode = "OFF"
   }
@@ -44,13 +44,13 @@ resource "aws_scheduler_schedule" "trigger-bluesky-api" {
 }
 
 resource "aws_scheduler_schedule" "trigger-crypto-api-silver" {
-  name                          = "trigger-crypto-api-silver"
-  group_name                    = "default"
-  description                   = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
-  region                        = "eu-north-1"
-  schedule_expression           = "rate(20 minutes)"
-  schedule_expression_timezone  = "Europe/Madrid"
-  state                         = "DISABLED"
+  name                         = "trigger-crypto-api-silver"
+  group_name                   = "default"
+  description                  = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
+  region                       = "eu-north-1"
+  schedule_expression          = "rate(20 minutes)"
+  schedule_expression_timezone = "Europe/Madrid"
+  state                        = "ENABLED"
   flexible_time_window {
     mode = "OFF"
   }
@@ -66,13 +66,13 @@ resource "aws_scheduler_schedule" "trigger-crypto-api-silver" {
 }
 
 resource "aws_scheduler_schedule" "trigger-bluesky-api-silver" {
-  name                          = "trigger-bluesky-api-silver"
-  group_name                    = "default"
-  description                   = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
-  region                        = "eu-north-1"
-  schedule_expression           = "rate(20 minutes)"
-  schedule_expression_timezone  = "Europe/Madrid"
-  state                         = "DISABLED"
+  name                         = "trigger-bluesky-api-silver"
+  group_name                   = "default"
+  description                  = "A trigger to invoke lambda responsible for acquiring data and saving it to s3. "
+  region                       = "eu-north-1"
+  schedule_expression          = "rate(20 minutes)"
+  schedule_expression_timezone = "Europe/Madrid"
+  state                        = "ENABLED"
   flexible_time_window {
     mode = "OFF"
   }
