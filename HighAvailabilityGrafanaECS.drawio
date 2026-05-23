@@ -1,0 +1,74 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="KEiWhNODMrlkgiC6sbTs">
+    <mxGraphModel dx="1034" dy="633" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="%Origen%" Origen="Usuari de l&#39;API" Desti="Security Group (Grafana)" Etiqueta="(Accés web pel port 3000 - Filtrar per IP)" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-42">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="100" x="320" y="30" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-54" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FBA6sOcMgVvZvfNIuvAS-44" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Security Group (Grafana)" Desti="Amazon ECS / AWS Fargate Clúster" Etiqueta="" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-43">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="160" x="290" y="90" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-55" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="FBA6sOcMgVvZvfNIuvAS-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-56" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FBA6sOcMgVvZvfNIuvAS-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Amazon ECS / AWS Fargate Clúster" Desti="(eu-north-1a) Grafana Task A" Etiqueta="" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-44">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="220" x="260" y="150" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="(eu-north-1a) Grafana Task A" Desti="(Efímer, Stateless)" Etiqueta="" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-45">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="180" x="150" y="260" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="(eu-north-1b) Grafana Task B" Desti="(Efímer, Stateless)" Etiqueta="" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-47">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="180" x="430" y="260" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-57" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="FBA6sOcMgVvZvfNIuvAS-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Grafana Task A" Desti="Amazon EFS (Shared Volume)" Etiqueta="(Munta mitjançant Access Point)" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-48">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="110" x="185" y="300" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-58" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="360" />
+              <mxPoint x="370" y="360" />
+            </Array>
+            <mxPoint x="370" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Grafana Task B" Desti="Amazon EFS (Shared Volume)" Etiqueta="(Munta mitjançant Access Point)" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-49">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="110" x="465" y="300" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Amazon EFS (Shared Volume)" Desti="/var/lib/grafana" Etiqueta="" placeholders="1" id="FBA6sOcMgVvZvfNIuvAS-50">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="190" x="275" y="390" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="FBA6sOcMgVvZvfNIuvAS-53" edge="1" parent="1" source="FBA6sOcMgVvZvfNIuvAS-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.498;entryY=-0.061;entryDx=0;entryDy=0;entryPerimeter=0;" target="FBA6sOcMgVvZvfNIuvAS-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
