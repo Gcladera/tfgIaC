@@ -367,6 +367,33 @@ resource "aws_glue_crawler" "gold-posts-content" {
   }
 }
 
+resource "aws_glue_crawler" "gold-score-by-crypto" {
+  name          = "gold-score-by-crypto"
+  database_name = aws_glue_catalog_database.schema_database.name
+  role          = var.glue_s3_role_arn
+  description   = "a crawler to create a datacatalog for score by crypto data"
+  s3_target {
+    path = "s3://amzn-s3-tfgdl/gold/posts-gold/score-by-crypto-gold/"
+  }
+  configuration = jsonencode({
+    Version              = 1.0
+    CreatePartitionIndex = true
+    Grouping = {
+      TableGroupingPolicy = "CombineCompatibleSchemas"
+    }
+  })
+  recrawl_policy {
+    recrawl_behavior = "CRAWL_NEW_FOLDERS_ONLY"
+  }
+  schema_change_policy {
+    delete_behavior = "LOG"
+    update_behavior = "LOG"
+  }
+  lake_formation_configuration {
+    use_lake_formation_credentials = true
+  }
+}
+
 #Glue data catalog
 #-----------------------
 
@@ -455,12 +482,14 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
   }
 }
 
+#Data Quality Rulesets
+#-----------------------
 resource "aws_glue_data_quality_ruleset" "dq_market_ranking_bronze" {
   name        = "dq-rules-market-ranking-bronze"
   description = "Regles de qualitat per a market_ranking_bronze"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "market-ranking-bronze"
+    table_name    = "market_ranking_bronze"
   }
   ruleset = <<-EOF
     Rules = [
@@ -475,7 +504,7 @@ resource "aws_glue_data_quality_ruleset" "dq_sentiment_bronze" {
   description = "Regles de qualitat per a sentiment-bronze"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "sentiment-bronze"
+    table_name    = "sentiment_bronze"
   }
   ruleset = <<-EOF
     Rules = [
@@ -490,7 +519,7 @@ resource "aws_glue_data_quality_ruleset" "dq_trending_bronze" {
   description = "Regles de qualitat per a trending-bronze"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "trending-bronze"
+    table_name    = "trending_bronze"
   }
   ruleset = <<-EOF
     Rules = [
@@ -505,7 +534,7 @@ resource "aws_glue_data_quality_ruleset" "dq_post_content_bronze" {
   description = "Regles de qualitat per a post-content-bronze"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "post-content-bronze"
+    table_name    = "post_content_bronze"
   }
   ruleset = <<-EOF
     Rules = [
@@ -548,12 +577,12 @@ resource "aws_glue_data_quality_ruleset" "dq_trending_silver" {
   EOF
 }
 
-resource "aws_glue_data_quality_ruleset" "dq_posts_content_silver" {
-  name        = "dq-rules-posts-content-silver"
-  description = "Regles de qualitat per a posts_content_silver"
+resource "aws_glue_data_quality_ruleset" "dq_post_content_silver" {
+  name        = "dq-rules-post-content-silver"
+  description = "Regles de qualitat per a post_content_silver"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "posts_content_silver"
+    table_name    = "post_content_silver"
   }
   ruleset = <<-EOF
     Rules = [
@@ -669,7 +698,7 @@ resource "aws_glue_data_quality_ruleset" "dq_posts_gold_neo4j_nodes" {
   description = "Regles de qualitat per als nodes de Neo4j (Gold)"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "posts_gold_neo4j_nodes"
+    table_name    = "nodes"
   }
   ruleset = <<-EOF
     Rules = [
@@ -688,7 +717,7 @@ resource "aws_glue_data_quality_ruleset" "dq_posts_gold_neo4j_relationships" {
   description = "Regles de qualitat per a les relacions de Neo4j (Gold)"
   target_table {
     database_name = aws_glue_catalog_database.schema_database.name
-    table_name    = "posts_gold_neo4j_relationships"
+    table_name    = "relationships"
   }
   ruleset = <<-EOF
     Rules = [

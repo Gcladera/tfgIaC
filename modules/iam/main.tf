@@ -223,49 +223,6 @@ resource "aws_iam_role" "grafana_ecs_task_execution" {
   tags_all              = {}
 }
 
-resource "aws_iam_role_policy" "grafana_ecs_task_athena_lakeformation" {
-  name = "grafana-ecs-task-athena-lf"
-  role = aws_iam_role.grafana_ecs_task_execution.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "athena:*",
-          "glue:GetDatabase",
-          "glue:GetDatabases",
-          "glue:GetTable",
-          "glue:GetTables",
-          "glue:GetPartition",
-          "glue:GetPartitions",
-          "glue:BatchGetPartition",
-          "lakeformation:GetDataAccess"
-        ]
-        Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetBucketLocation",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:ListMultipartUploadParts",
-          "s3:AbortMultipartUpload",
-          "s3:PutObject"
-        ]
-        Resource = [
-          "arn:aws:s3:::s3-athena-query-results-tfgdl",
-          "arn:aws:s3:::s3-athena-query-results-tfgdl/*",
-          var.datalake_bucket_arn,
-          "${var.datalake_bucket_arn}/*"
-        ]
-      }
-    ]
-  })
-}
-
 resource "aws_iam_role" "lambda_gecko" {
   assume_role_policy = jsonencode({
     Statement = [{
@@ -333,11 +290,6 @@ resource "aws_iam_user" "readonly_user" {
 resource "aws_iam_user_policy_attachment" "readonly_attach" {
   user       = aws_iam_user.readonly_user.name
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
-}
-
-resource "aws_iam_user_policy_attachment" "grau_cladera_athena" {
-  user       = aws_iam_user.grau_cladera.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonAthenaFullAccess"
 }
 
 resource "aws_iam_user_policy_attachment" "grau_cladera_lakeformation" {
