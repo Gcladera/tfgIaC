@@ -1,0 +1,136 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="2I2whViZoOB1JeiDxYY6">
+    <mxGraphModel dx="1077" dy="659" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="%Origen%" Origen="Fonts Externes" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-40">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="100" x="20" y="130" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-62" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-72" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-73" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Capa Bronze (Raw)" Desti=" " placeholders="1" id="aiKQlpO96_l4tFEWumEk-41">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="130" x="10" y="250" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="(APIs de CoinGecko i Bluesky via Lambda" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-42">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="250" x="130" y="190" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Formatejar: JSON / CSV en brut (S3)" Desti=" " placeholders="1" id="aiKQlpO96_l4tFEWumEk-43">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="220" x="194" y="250" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Control: Validació de Volum (RowCount &gt; 0)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-44">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="260" x="194" y="300" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-63" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-70" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-71" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Capa Silver (Clean)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-45">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="130" x="10" y="470" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Formatejar: Columnar Parquet (S3)" Desti=" " placeholders="1" id="aiKQlpO96_l4tFEWumEk-46">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="210" x="194" y="470" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Control: Tipat (Double/String) i Neteja" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-47">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="220" x="194" y="520" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="(AWS Glue ETL Job - PySpark)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-48">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="190" x="130" y="370" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="(AWS Glue Gold ETL Job &amp; Amazon Comprehend NLP)" placeholders="1" id="aiKQlpO96_l4tFEWumEk-49">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="320" x="120" y="585" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-64" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-53">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-68" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-69" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Capa Gold (Business)" Desti=" " placeholders="1" id="aiKQlpO96_l4tFEWumEk-50">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="140" x="5" y="660" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Formatejar: Parquet Optimitzat / Grafs estructurats (S3)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-51">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="320" x="194" y="660" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Control: Control de rangs analítics (0.0 a 100.0)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-52">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="280" x="194" y="710" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-65" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-67" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Capa de Consum" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-53">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="120" x="15" y="780" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-66" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="aiKQlpO96_l4tFEWumEk-56">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="%Origen%" Origen="Amazon Athena" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-54">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="110" x="194" y="780" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="%Origen%" Origen="Grafana (Dashboards)" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-56">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="140" x="370" y="780" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Exportació" Origen="Amazon Athena" Desti="" placeholders="1" id="aiKQlpO96_l4tFEWumEk-60">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="30" width="110" x="194" y="830" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="aiKQlpO96_l4tFEWumEk-61" edge="1" parent="1" source="aiKQlpO96_l4tFEWumEk-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.461;entryY=0.018;entryDx=0;entryDy=0;entryPerimeter=0;" target="aiKQlpO96_l4tFEWumEk-41">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
