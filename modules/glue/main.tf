@@ -398,7 +398,7 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
     "--enable-metrics"               = "true"
     "--enable-observability-metrics" = "true"
     "--enable-spark-ui"              = "true"
-    "--job-bookmark-option"          = "job-bookmark-disable"
+    "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
     "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
   }
@@ -424,7 +424,7 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
     "--enable-metrics"               = "true"
     "--enable-observability-metrics" = "true"
     "--enable-spark-ui"              = "true"
-    "--job-bookmark-option"          = "job-bookmark-disable"
+    "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
     "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
   }
@@ -449,8 +449,276 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
     "--enable-metrics"               = "true"
     "--enable-observability-metrics" = "true"
     "--enable-spark-ui"              = "true"
-    "--job-bookmark-option"          = "job-bookmark-disable"
+    "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
     "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
   }
 }
+
+resource "aws_glue_data_quality_ruleset" "dq_market_ranking_bronze" {
+  name        = "dq-rules-market-ranking-bronze"
+  description = "Regles de qualitat per a market_ranking_bronze"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "market-ranking-bronze"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0
+
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_sentiment_bronze" {
+  name        = "dq-rules-sentiment-bronze"
+  description = "Regles de qualitat per a sentiment-bronze"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "sentiment-bronze"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0
+
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_trending_bronze" {
+  name        = "dq-rules-trending-bronze"
+  description = "Regles de qualitat per a trending-bronze"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "trending-bronze"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0
+
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_post_content_bronze" {
+  name        = "dq-rules-post-content-bronze"
+  description = "Regles de qualitat per a post-content-bronze"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "post-content-bronze"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0
+
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_market_ranking_silver" {
+  name        = "dq-rules-market-ranking-silver"
+  description = "Regles de qualitat per a market_ranking_silver"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "market_ranking_silver"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      ColumnDataType "current_price" = "Double",
+      ColumnValues "current_price" >= 0.0,
+      ColumnValues "market_cap" >= 0.0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_trending_silver" {
+  name        = "dq-rules-trending-silver"
+  description = "Regles de qualitat per a trending_silver"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "trending_silver"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      ColumnDataType "current_price" = "Double",
+      ColumnValues "current_price" >= 0.0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_posts_content_silver" {
+  name        = "dq-rules-posts-content-silver"
+  description = "Regles de qualitat per a posts_content_silver"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "posts_content_silver"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "id",
+      IsComplete "cid",
+      IsComplete "author_handle",
+      ColumnValues "like_count" >= 0,
+      ColumnValues "reply_count" >= 0,
+      ColumnValues "repost_count" >= 0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_social_media_relationships_silver" {
+  name        = "dq-rules-social-media-relationships-silver"
+  description = "Regles de qualitat per a social_media_relationships_silver"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "social_media_relationships_silver"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "id",
+      IsComplete "author_handle",
+      IsComplete "author_did",
+      ColumnValues "like_count" >= 0,
+      ColumnValues "reply_count" >= 0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_market_ranking_gold" {
+  name        = "dq-rules-market-ranking-gold"
+  description = "Regles de qualitat per a market_ranking_gold"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "market_ranking_gold"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      ColumnDataType "current_price" = "Double",
+      ColumnValues "current_price" >= 0.0,
+      ColumnValues "market_cap" >= 0.0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_trending_gold" {
+  name        = "dq-rules-trending-gold"
+  description = "Regles de qualitat per a trending_gold"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "trending_gold"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      ColumnDataType "current_price" = "Double",
+      ColumnValues "current_price" >= 0.0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_sentiment_gold" {
+  name        = "dq-rules-sentiment-gold"
+  description = "Regles de qualitat per a sentiment_gold"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "sentiment_gold"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "sentiment_up_percentage",
+      ColumnValues "sentiment_up_percentage" >= 0.0,
+      ColumnValues "sentiment_up_percentage" <= 100.0,
+      IsComplete "sentiment_down_percentage",
+      ColumnValues "sentiment_down_percentage" >= 0.0,
+      ColumnValues "sentiment_down_percentage" <= 100.0,
+      IsComplete "watchlist_count",
+      ColumnValues "watchlist_count" >= 0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_score_by_crypto_gold" {
+  name        = "dq-rules-score-by-crypto-gold"
+  description = "Regles de qualitat per a score_by_crypto_gold"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "score_by_crypto_gold"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "sentiment_up_percentage",
+      ColumnValues "sentiment_up_percentage" >= 0.0,
+      ColumnValues "sentiment_up_percentage" <= 100.0,
+      IsComplete "sentiment_down_percentage",
+      ColumnValues "sentiment_down_percentage" >= 0.0,
+      ColumnValues "sentiment_down_percentage" <= 100.0,
+      IsComplete "watchlist_count",
+      ColumnValues "watchlist_count" >= 0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_posts_gold_neo4j_nodes" {
+  name        = "dq-rules-posts-gold-neo4j-nodes"
+  description = "Regles de qualitat per als nodes de Neo4j (Gold)"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "posts_gold_neo4j_nodes"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "id",
+      IsComplete "author_handle",
+      ColumnValues "like_count" >= 0,
+      ColumnValues "reply_count" >= 0,
+      ColumnValues "repost_count" >= 0
+    ]
+  EOF
+}
+
+resource "aws_glue_data_quality_ruleset" "dq_posts_gold_neo4j_relationships" {
+  name        = "dq-rules-posts-gold-neo4j-relationships"
+  description = "Regles de qualitat per a les relacions de Neo4j (Gold)"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "posts_gold_neo4j_relationships"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "id",
+      IsComplete "author_did",
+      ColumnValues "like_count" >= 0,
+      ColumnValues "repost_count" >= 0
+    ]
+  EOF
+}
+
+
+resource "aws_glue_data_quality_ruleset" "dq_post_content_gold" {
+  name        = "dq-rules-post-content-gold"
+  description = "Regles de qualitat per a post_content_gold"
+  target_table {
+    database_name = aws_glue_catalog_database.schema_database.name
+    table_name    = "post_content_gold"
+  }
+  ruleset = <<-EOF
+    Rules = [
+      RowCount > 0,
+      IsComplete "id",
+      IsComplete "cid",
+      IsComplete "author_handle",
+      ColumnValues "like_count" >= 0,
+      ColumnValues "reply_count" >= 0,
+      ColumnValues "repost_count" >= 0
+    ]
+  EOF
+}
+

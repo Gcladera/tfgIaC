@@ -321,6 +321,20 @@ resource "aws_iam_user" "grau_cladera" {
   }
 }
 
+resource "aws_iam_user" "readonly_user" {
+  name = "readonly_user"
+  path = "/"
+
+  tags = {
+    Description = "Usuari només amb permisos de lectura"
+  }
+}
+
+resource "aws_iam_user_policy_attachment" "readonly_attach" {
+  user       = aws_iam_user.readonly_user.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+
 resource "aws_iam_user_policy_attachment" "grau_cladera_athena" {
   user       = aws_iam_user.grau_cladera.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonAthenaFullAccess"

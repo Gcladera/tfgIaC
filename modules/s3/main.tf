@@ -4,6 +4,10 @@ resource "aws_s3_bucket" "s3-datalake" {
   bucket = "amzn-s3-tfgdl"
 }
 
+resource "aws_s3_bucket" "s3-data-quality-results" {
+  bucket = "amzn-s3-data-quality-results-tfgdl"
+}
+
 resource "aws_s3_bucket" "aws-glue-assets-eu-north-1" {
   bucket = "aws-glue-assets-544820269502-eu-north-1"
 }
