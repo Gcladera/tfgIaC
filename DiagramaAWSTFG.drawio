@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Página-1" id="_nXMInIK6G06kRzGHZLw">
-    <mxGraphModel dx="1230" dy="753" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1988" dy="1168" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -263,6 +263,19 @@
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-143" parent="UbNDKqTdlLdy7BMQLG8_-124" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Glue Data Quality" vertex="1">
           <mxGeometry height="30" width="60" x="156.505" y="69" as="geometry" />
         </mxCell>
+        <mxCell id="mRko0IfGpbScQEUKTP9V-1" parent="UbNDKqTdlLdy7BMQLG8_-124" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="Amazon SQS" vertex="1">
+          <mxGeometry height="90" width="70" x="507.66999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="mRko0IfGpbScQEUKTP9V-3" edge="1" parent="UbNDKqTdlLdy7BMQLG8_-124" source="mRko0IfGpbScQEUKTP9V-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="602" y="45" />
+              <mxPoint x="602" y="220" />
+              <mxPoint x="672" y="220" />
+            </Array>
+            <mxPoint x="671.67" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="UbNDKqTdlLdy7BMQLG8_-130" parent="1" style="shape=actor;whiteSpace=wrap;html=1;" value="" vertex="1">
           <mxGeometry height="60" width="40" x="1059" y="239" as="geometry" />
         </mxCell>
@@ -408,7 +421,17 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="UbNDKqTdlLdy7BMQLG8_-20" parent="1" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=none;strokeColor=#232F3E;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeWidth=2;verticalAlign=top;whiteSpace=wrap;fontStyle=1;fontSize=14;container=0;" value="AWS Cloud" vertex="1">
-          <mxGeometry height="750.02" width="958.33" x="640" y="1130" as="geometry" />
+          <mxGeometry height="750" width="958.29" x="640" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="mRko0IfGpbScQEUKTP9V-2" edge="1" parent="1" source="mRko0IfGpbScQEUKTP9V-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;entryX=0.999;entryY=0.056;entryDx=0;entryDy=0;entryPerimeter=0;" target="6SvbBCwZG1GYyiX7b0oH-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1013" y="1205" />
+              <mxPoint x="1013" y="1270" />
+              <mxPoint x="820" y="1270" />
+            </Array>
+            <mxPoint x="810" y="1280" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
