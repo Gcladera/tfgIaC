@@ -64,11 +64,12 @@ module "efs" {
 }
 
 module "iam" {
-  source               = "../../modules/iam"
-  blue_sky_api_arn     = module.secretsmanager.blue_sky_api_arn
-  crypto_api_arn       = module.secretsmanager.crypto_api_arn
-  schema_database_name = module.glue.schema_database_name
-  datalake_bucket_arn  = module.s3.datalake_bucket_arn
+  source                    = "../../modules/iam"
+  blue_sky_api_arn          = module.secretsmanager.blue_sky_api_arn
+  crypto_api_arn            = module.secretsmanager.crypto_api_arn
+  schema_database_name      = module.glue.schema_database_name
+  datalake_bucket_arn       = module.s3.datalake_bucket_arn
+  athena_results_bucket_arn = module.s3.athena_results_bucket_arn
 }
 module "vpc" {
   source = "../../modules/vpc"
@@ -87,5 +88,16 @@ module "secretsmanager" {
 }
 
 module "lakeformation" {
-  source = "../../modules/lakeformation"
+  source                              = "../../modules/lakeformation"
+  datalake_bucket_arn                 = module.s3.datalake_bucket_arn
+  schema_database_name                = module.glue.schema_database_name
+  lakeformation_service_role_arn      = module.iam.lakeformation_service_role_arn
+  lambda_posts_role_arn               = module.iam.lambda_posts_role_arn
+  lambda_gecko_role_arn               = module.iam.lambda_gecko_role_arn
+  lambda_silver_role_arn              = module.iam.lambda_silver_role_arn
+  lambda_gecko_silver_role_arn        = module.iam.lambda_gecko_silver_role_arn
+  grafana_ecs_task_execution_role_arn = module.iam.grafana_ecs_task_execution_role_arn
+  glue_s3_role_arn                    = module.iam.glue_s3_role_arn
+  athena_sql_role_arn                 = module.iam.athena_sql_role_arn
+  glue_service_role_arn               = module.iam.glue_service_role_arn
 }

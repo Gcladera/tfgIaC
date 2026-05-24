@@ -1,1 +1,11 @@
-
+variable "datalake_bucket_arn" {}
+variable "schema_database_name" {}
+variable "lakeformation_service_role_arn" {}
+variable "lambda_posts_role_arn" {}
+variable "lambda_gecko_role_arn" {}
+variable "lambda_silver_role_arn" {}
+variable "lambda_gecko_silver_role_arn" {}
+variable "grafana_ecs_task_execution_role_arn" {}
+variable "glue_s3_role_arn" {}
+variable "athena_sql_role_arn" {}
+variable "glue_service_role_arn" {}

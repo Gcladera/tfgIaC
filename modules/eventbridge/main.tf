@@ -4,7 +4,7 @@ resource "aws_scheduler_schedule" "trigger-crypto-api" {
   region                       = "eu-north-1"
   schedule_expression          = "rate(20 minutes)"
   schedule_expression_timezone = "Europe/Madrid"
-  state                        = "ENABLED"
+  state                        = "DISABLED"
 
   flexible_time_window {
     mode = "OFF"
@@ -28,7 +28,7 @@ resource "aws_scheduler_schedule" "trigger-bluesky-api" {
   region                       = "eu-north-1"
   schedule_expression          = "rate(20 minutes)"
   schedule_expression_timezone = "Europe/Madrid"
-  state                        = "ENABLED"
+  state                        = "DISABLED"
   flexible_time_window {
     mode = "OFF"
   }
@@ -50,7 +50,7 @@ resource "aws_scheduler_schedule" "trigger-crypto-api-silver" {
   region                       = "eu-north-1"
   schedule_expression          = "rate(20 minutes)"
   schedule_expression_timezone = "Europe/Madrid"
-  state                        = "ENABLED"
+  state                        = "DISABLED"
   flexible_time_window {
     mode = "OFF"
   }
@@ -72,7 +72,7 @@ resource "aws_scheduler_schedule" "trigger-bluesky-api-silver" {
   region                       = "eu-north-1"
   schedule_expression          = "rate(20 minutes)"
   schedule_expression_timezone = "Europe/Madrid"
-  state                        = "ENABLED"
+  state                        = "DISABLED"
   flexible_time_window {
     mode = "OFF"
   }

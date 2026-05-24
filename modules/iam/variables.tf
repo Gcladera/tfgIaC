@@ -17,3 +17,8 @@ variable "datalake_bucket_arn" {
   type        = string
   description = "ARN of the datalake S3 bucket"
 }
+
+variable "athena_results_bucket_arn" {
+  type        = string
+  description = "ARN of the Athena query results S3 bucket"
+}

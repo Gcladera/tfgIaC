@@ -751,3 +751,69 @@ resource "aws_glue_data_quality_ruleset" "dq_post_content_gold" {
   EOF
 }
 
+#Glue Triggers
+#-----------------------
+
+resource "aws_glue_trigger" "crawler_crypto_market_ranking" {
+  name    = "CrawlerCryptoMarketRanking"
+  type    = "CONDITIONAL"
+  enabled = true
+
+  actions {
+    job_name = aws_glue_job.ETLjobCryptoBronzeSilver.name
+  }
+
+  predicate {
+    logical = "ANY"
+
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-market_ranking.name
+      crawl_state  = "SUCCEEDED"
+    }
+
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-trending.name
+      crawl_state  = "SUCCEEDED"
+    }
+
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-sentiment.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+}
+
+resource "aws_glue_trigger" "posts_relationships" {
+  name    = "PostsRelationships"
+  type    = "CONDITIONAL"
+  enabled = true
+
+  actions {
+    job_name = aws_glue_job.relationshipsBronzeSilver.name
+  }
+
+  predicate {
+    conditions {
+      crawler_name = aws_glue_crawler.silver-posts-relationships.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+}
+
+resource "aws_glue_trigger" "posts_sentiment" {
+  name    = "PostsSentiment"
+  type    = "CONDITIONAL"
+  enabled = true
+
+  actions {
+    job_name = aws_glue_job.JobsETLPostsBronzeSilver.name
+  }
+
+  predicate {
+    conditions {
+      crawler_name = aws_glue_crawler.silver-posts-content.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+}
+

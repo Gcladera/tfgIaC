@@ -52,3 +52,13 @@ output "lakeformation_service_role_arn" {
   value       = aws_iam_role.lakeformation_service_role.arn
   description = "ARN of the Lake Formation Service Role"
 }
+
+output "lambda_gecko_silver_role_arn" {
+  description = "ARN for Lambda Gecko Silver Role"
+  value       = aws_iam_role.lambda_gecko_silver.arn
+}
+
+output "athena_sql_role_arn" {
+  description = "ARN for Athena SQL Role"
+  value       = aws_iam_role.athena_sql_role.arn
+}
