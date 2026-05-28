@@ -1,10 +1,18 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+  aws_region = data.aws_region.current.region
+}
+
 resource "aws_iam_role" "eventbridge_scheduler_lambda_2" {
   assume_role_policy = jsonencode({
     Statement = [{
       Action = "sts:AssumeRole"
       Condition = {
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -54,7 +62,7 @@ resource "aws_iam_role" "glue_service_role" {
       Action = "sts:AssumeRole"
       Condition = {
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -80,10 +88,10 @@ resource "aws_iam_role" "ecs_grafana_execution" {
       Action = "sts:AssumeRole"
       Condition = {
         ArnLike = {
-          "aws:SourceArn" = "arn:aws:ecs:eu-north-1:544820269502:*"
+          "aws:SourceArn" = "arn:aws:ecs:${local.aws_region}:${local.account_id}:*"
         }
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -130,7 +138,7 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_1" {
       Action = "sts:AssumeRole"
       Condition = {
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -156,7 +164,7 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_3" {
       Action = "sts:AssumeRole"
       Condition = {
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -182,7 +190,7 @@ resource "aws_iam_role" "eventbridge_scheduler_lambda_4" {
       Action = "sts:AssumeRole"
       Condition = {
         StringEquals = {
-          "aws:SourceAccount" = "544820269502"
+          "aws:SourceAccount" = local.account_id
         }
       }
       Effect = "Allow"
@@ -379,13 +387,13 @@ resource "aws_iam_role_policy" "lambda_gecko_silver_basic_execution" {
       {
         Effect   = "Allow"
         Action   = "logs:CreateLogGroup"
-        Resource = "arn:aws:logs:eu-north-1:544820269502:*"
+        Resource = "arn:aws:logs:${local.aws_region}:${local.account_id}:*"
       },
       {
         Effect = "Allow"
         Action = ["logs:CreateLogStream", "logs:PutLogEvents"]
         Resource = [
-          "arn:aws:logs:eu-north-1:544820269502:log-group:/aws/lambda/lambda-gecko-silver:*"
+          "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:/aws/lambda/lambda-gecko-silver:*"
         ]
       }
     ]
@@ -409,13 +417,13 @@ resource "aws_iam_role_policy" "lambda_posts_basic_execution" {
       {
         Effect   = "Allow"
         Action   = "logs:CreateLogGroup"
-        Resource = "arn:aws:logs:eu-north-1:544820269502:*"
+        Resource = "arn:aws:logs:${local.aws_region}:${local.account_id}:*"
       },
       {
         Effect = "Allow"
         Action = ["logs:CreateLogStream", "logs:PutLogEvents"]
         Resource = [
-          "arn:aws:logs:eu-north-1:544820269502:log-group:/aws/lambda/lambda-posts:*"
+          "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:/aws/lambda/lambda-posts:*"
         ]
       }
     ]
@@ -470,13 +478,13 @@ resource "aws_iam_role_policy" "lambda_gecko_basic_execution" {
       {
         Effect   = "Allow"
         Action   = "logs:CreateLogGroup"
-        Resource = "arn:aws:logs:eu-north-1:544820269502:*"
+        Resource = "arn:aws:logs:${local.aws_region}:${local.account_id}:*"
       },
       {
         Effect = "Allow"
         Action = ["logs:CreateLogStream", "logs:PutLogEvents"]
         Resource = [
-          "arn:aws:logs:eu-north-1:544820269502:log-group:/aws/lambda/lambda-posts:*"
+          "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:/aws/lambda/lambda-posts:*"
         ]
       }
     ]
@@ -635,7 +643,7 @@ resource "aws_iam_role_policy" "glue_crawler_s3_policy" {
         Resource = ["${var.datalake_bucket_arn}/*"]
         Condition = {
           StringEquals = {
-            "aws:ResourceAccount" = "544820269502"
+            "aws:ResourceAccount" = local.account_id
           }
         }
       }
@@ -867,9 +875,9 @@ resource "aws_iam_role_policy" "athena_sql_role_policy" {
           "athena:UpdatePreparedStatement",
           "athena:ListPreparedStatements"
         ]
-        Resource = ["arn:aws:athena:eu-north-1:544820269502:workgroup/athena-datacatalog"]
+        Resource = ["arn:aws:athena:${local.aws_region}:${local.account_id}:workgroup/${var.athena_workgroup_name}"]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       },
       {
@@ -877,11 +885,11 @@ resource "aws_iam_role_policy" "athena_sql_role_policy" {
         Effect = "Allow"
         Action = ["athena:GetDataCatalog"]
         Resource = [
-          "arn:aws:athena:eu-north-1:544820269502:workgroup/athena-datacatalog",
-          "arn:aws:athena:eu-north-1:544820269502:datacatalog/*"
+          "arn:aws:athena:${local.aws_region}:${local.account_id}:workgroup/${var.athena_workgroup_name}",
+          "arn:aws:athena:${local.aws_region}:${local.account_id}:datacatalog/*"
         ]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       },
       {
@@ -895,7 +903,7 @@ resource "aws_iam_role_policy" "athena_sql_role_policy" {
         ]
         Resource = ["*"]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       },
       {
@@ -907,16 +915,16 @@ resource "aws_iam_role_policy" "athena_sql_role_policy" {
           var.athena_results_bucket_arn
         ]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       },
       {
         Sid      = "S3AccessGrants"
         Effect   = "Allow"
         Action   = ["s3:GetDataAccess", "s3:GetAccessGrantsInstanceForPrefix"]
-        Resource = ["arn:aws:s3:eu-north-1:544820269502:access-grants/default"]
+        Resource = ["arn:aws:s3:${local.aws_region}:${local.account_id}:access-grants/default"]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       },
       {
@@ -925,7 +933,7 @@ resource "aws_iam_role_policy" "athena_sql_role_policy" {
         Action   = ["lakeformation:GetDataAccess"]
         Resource = ["*"]
         Condition = {
-          StringEquals = { "aws:ResourceAccount" = "544820269502" }
+          StringEquals = { "aws:ResourceAccount" = local.account_id }
         }
       }
     ]
@@ -984,5 +992,100 @@ resource "aws_iam_policy" "lakeformation_AdminAccess" {
         Resource = "*"
       }
     ]
+  })
+}
+
+
+resource "aws_iam_role" "eventbridge_bronze_crawler_role" {
+  name = "eventbridge-trigger-bronze-crawler-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "events.amazonaws.com"
+      }
+    }]
+  })
+}
+
+
+resource "aws_iam_role" "eventbridge_silver_crawler_role" {
+  name = "eventbridge-trigger-silver-crawler-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "events.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role" "eventbridge_gold_crawler_role" {
+  name = "eventbridge-trigger-gold-crawler-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "events.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "eventbridge_bronze_crawlers_policy" {
+  name = "EventBridgeStartCrawlerPolicy"
+  role = aws_iam_role.eventbridge_bronze_crawler_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = "glue:NotifyEvent"
+      Resource = [
+        var.glue_workflow_bronze_arn
+      ]
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "eventbridge_silver_crawlers_policy" {
+  name = "EventBridgeStartCrawlerPolicy"
+  role = aws_iam_role.eventbridge_silver_crawler_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = "glue:NotifyEvent"
+      Resource = [
+        var.glue_workflow_silver_arn
+      ]
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "eventbridge_gold_crawlers_policy" {
+  name = "EventBridgeStartCrawlerPolicy"
+  role = aws_iam_role.eventbridge_gold_crawler_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = "glue:NotifyEvent"
+      Resource = [
+        var.glue_workflow_gold_arn
+      ]
+    }]
   })
 }

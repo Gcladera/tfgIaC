@@ -19,7 +19,7 @@ resource "aws_security_group" "grafana_sg" {
 }
 
 resource "aws_security_group" "efs_grafana" {
-  description            = "allowc ecs access to efs"
+  description = "allowc ecs access to efs"
 }
 
 resource "aws_security_group" "grafana_sg_mainvpc" {

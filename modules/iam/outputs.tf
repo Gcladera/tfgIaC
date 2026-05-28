@@ -62,3 +62,18 @@ output "athena_sql_role_arn" {
   description = "ARN for Athena SQL Role"
   value       = aws_iam_role.athena_sql_role.arn
 }
+
+output "eventbridge_bronze_crawler_role_arn" {
+  description = "ARN for EventBridge Bronze Crawler Role"
+  value       = aws_iam_role.eventbridge_bronze_crawler_role.arn
+}
+
+output "eventbridge_silver_crawler_role_arn" {
+  description = "ARN for EventBridge Silver Crawler Role"
+  value       = aws_iam_role.eventbridge_silver_crawler_role.arn
+}
+
+output "eventbridge_gold_crawler_role_arn" {
+  description = "ARN for EventBridge Gold Crawler Role"
+  value       = aws_iam_role.eventbridge_gold_crawler_role.arn
+}

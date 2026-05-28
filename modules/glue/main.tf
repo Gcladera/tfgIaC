@@ -1,10 +1,13 @@
-resource "aws_glue_crawler" "bronze-crypto-market_ranking" {
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
+resource "aws_glue_crawler" "bronze-crypto-market-ranking" {
   name          = "bronze-crypto-market_ranking"
   database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/market-ranking-bronze/"
+    path = "s3://${var.datalake_bucket_name}/bronze/crypto-bronze/market-ranking-bronze/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -28,7 +31,7 @@ resource "aws_glue_crawler" "bronze-crypto-sentiment" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/sentiment-bronze/"
+    path = "s3://${var.datalake_bucket_name}/bronze/crypto-bronze/sentiment-bronze/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -51,7 +54,7 @@ resource "aws_glue_crawler" "bronze-crypto-trending" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/crypto-bronze/trending-bronze/"
+    path = "s3://${var.datalake_bucket_name}/bronze/crypto-bronze/trending-bronze/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -74,7 +77,7 @@ resource "aws_glue_crawler" "bronze-posts-content" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/bronze/posts-bronze/post-content-bronze/"
+    path = "s3://${var.datalake_bucket_name}/bronze/posts-bronze/post-content-bronze/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -95,13 +98,13 @@ resource "aws_glue_crawler" "bronze-posts-content" {
   }
 }
 
-resource "aws_glue_crawler" "silver-crypto-market_ranking" {
-  name          = "silver-crypto-market_ranking-copy"
+resource "aws_glue_crawler" "silver-crypto-market-ranking" {
+  name          = "silver-crypto-market-ranking"
   database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/market-ranking-silver/"
+    path = "s3://${var.datalake_bucket_name}/silver/crypto-silver/market-ranking-silver/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -124,7 +127,7 @@ resource "aws_glue_crawler" "silver-crypto-sentiment" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/sentiment-silver/"
+    path = "s3://${var.datalake_bucket_name}/silver/crypto-silver/sentiment-silver/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -147,7 +150,7 @@ resource "aws_glue_crawler" "silver-crypto-trending" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/crypto-silver/trending-silver/"
+    path = "s3://${var.datalake_bucket_name}/silver/crypto-silver/trending-silver/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -170,7 +173,7 @@ resource "aws_glue_crawler" "silver-posts-content" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/posts-silver/post-content-silver/"
+    path = "s3://${var.datalake_bucket_name}/silver/posts-silver/post-content-silver/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -197,7 +200,7 @@ resource "aws_glue_crawler" "silver-posts-relationships" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/silver/posts-silver/social-media-relationships-silver/"
+    path = "s3://${var.datalake_bucket_name}/silver/posts-silver/social-media-relationships-silver/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -224,7 +227,7 @@ resource "aws_glue_crawler" "gold-posts-nodes" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts nodes"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/nodes/"
+    path = "s3://${var.datalake_bucket_name}/gold/posts-gold/neo4j/nodes/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -250,7 +253,7 @@ resource "aws_glue_crawler" "gold-posts-relationships" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for social media accounts relationships"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/neo4j/relationships/"
+    path = "s3://${var.datalake_bucket_name}/gold/posts-gold/neo4j/relationships/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -271,13 +274,13 @@ resource "aws_glue_crawler" "gold-posts-relationships" {
   }
 }
 
-resource "aws_glue_crawler" "gold-crypto-market_ranking" {
+resource "aws_glue_crawler" "gold-crypto-market-ranking" {
   name          = "gold-crypto-market_ranking"
   database_name = aws_glue_catalog_database.schema_database.name
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/market-ranking-gold/"
+    path = "s3://${var.datalake_bucket_name}/gold/crypto-gold/market-ranking-gold/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -300,7 +303,7 @@ resource "aws_glue_crawler" "gold-crypto-sentiment" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/sentiment-gold/"
+    path = "s3://${var.datalake_bucket_name}/gold/crypto-gold/sentiment-gold/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -323,7 +326,7 @@ resource "aws_glue_crawler" "gold-crypto-trending" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/crypto-gold/trending-gold/"
+    path = "s3://${var.datalake_bucket_name}/gold/crypto-gold/trending-gold/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -346,7 +349,7 @@ resource "aws_glue_crawler" "gold-posts-content" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for posts content"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/post-content-gold/"
+    path = "s3://${var.datalake_bucket_name}/gold/posts-gold/post-content-gold/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -373,7 +376,7 @@ resource "aws_glue_crawler" "gold-score-by-crypto" {
   role          = var.glue_s3_role_arn
   description   = "a crawler to create a datacatalog for score by crypto data"
   s3_target {
-    path = "s3://amzn-s3-tfgdl/gold/posts-gold/score-by-crypto-gold/"
+    path = "s3://${var.datalake_bucket_name}/gold/posts-gold/score-by-crypto-gold/"
   }
   configuration = jsonencode({
     Version              = 1.0
@@ -399,7 +402,7 @@ resource "aws_glue_crawler" "gold-score-by-crypto" {
 
 resource "aws_glue_catalog_database" "schema_database" {
   name        = "glue-crawler-schema"
-  catalog_id  = "544820269502"
+  catalog_id  = data.aws_caller_identity.current.account_id
   description = "Contenedor de Metadatos: carpeta virtual donde el Crawler guardará las definiciones de las tablas (esquemas, formatos y rutas) que encuentre en tu S3 o base de datos origen. Organización: Permite que herramientas como Amazon Athena o Amazon Redshift Spectrum sepan dónde buscar las tablas para hacer consultas SQL."
 
 }
@@ -414,11 +417,11 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
   number_of_workers = 10
 
   command {
-    script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/JobsETLPostsBronzeSIlver.py"
+    script_location = "s3://${var.glue_assets_bucket_name}/scripts/JobsETLPostsBronzeSIlver.py"
   }
 
   default_arguments = {
-    "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
+    "--TempDir"                      = "s3://${var.glue_assets_bucket_name}/temporary/"
     "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-glue-datacatalog"      = "true"
     "--enable-job-insights"          = "true"
@@ -427,7 +430,7 @@ resource "aws_glue_job" "JobsETLPostsBronzeSilver" {
     "--enable-spark-ui"              = "true"
     "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
-    "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
+    "--spark-event-logs-path"        = "s3://${var.glue_assets_bucket_name}/sparkHistoryLogs/"
   }
 }
 
@@ -439,11 +442,11 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
   number_of_workers = 10
 
   command {
-    script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/relationshipsBronzeSilver.py"
+    script_location = "s3://${var.glue_assets_bucket_name}/scripts/relationshipsBronzeSilver.py"
   }
 
   default_arguments = {
-    "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
+    "--TempDir"                      = "s3://${var.glue_assets_bucket_name}/temporary/"
     "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-auto-scaling"          = "true"
     "--enable-glue-datacatalog"      = "true"
@@ -453,7 +456,7 @@ resource "aws_glue_job" "relationshipsBronzeSilver" {
     "--enable-spark-ui"              = "true"
     "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
-    "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
+    "--spark-event-logs-path"        = "s3://${var.glue_assets_bucket_name}/sparkHistoryLogs/"
   }
 }
 
@@ -465,11 +468,11 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
   number_of_workers = 10
 
   command {
-    script_location = "s3://aws-glue-assets-544820269502-eu-north-1/scripts/ETLjobCryptoBronzeSilver.py"
+    script_location = "s3://${var.glue_assets_bucket_name}/scripts/ETLjobCryptoBronzeSilver.py"
   }
 
   default_arguments = {
-    "--TempDir"                      = "s3://aws-glue-assets-544820269502-eu-north-1/temporary/"
+    "--TempDir"                      = "s3://${var.glue_assets_bucket_name}/temporary/"
     "--conf"                         = "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true"
     "--enable-glue-datacatalog"      = "true"
     "--enable-job-insights"          = "true"
@@ -478,7 +481,7 @@ resource "aws_glue_job" "ETLjobCryptoBronzeSilver" {
     "--enable-spark-ui"              = "true"
     "--job-bookmark-option"          = "job-bookmark-enable"
     "--job-language"                 = "python"
-    "--spark-event-logs-path"        = "s3://aws-glue-assets-544820269502-eu-north-1/sparkHistoryLogs/"
+    "--spark-event-logs-path"        = "s3://${var.glue_assets_bucket_name}/sparkHistoryLogs/"
   }
 }
 
@@ -730,6 +733,206 @@ resource "aws_glue_data_quality_ruleset" "dq_posts_gold_neo4j_relationships" {
   EOF
 }
 
+resource "aws_glue_workflow" "bronze_crawlers_workflow" {
+  name = "bronze-crawlers-workflow"
+}
+
+# Bronze: EVENT starting trigger (2 crawlers) + CONDITIONAL trigger for the remaining 2
+resource "aws_glue_trigger" "start_bronze_crawlers_event_trigger_1" {
+  name          = "start-bronze-crawlers-event-trigger-1"
+  type          = "EVENT"
+  workflow_name = aws_glue_workflow.bronze_crawlers_workflow.name
+
+  actions {
+    crawler_name = aws_glue_crawler.bronze-crypto-market-ranking.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.bronze-crypto-sentiment.name
+  }
+}
+
+resource "aws_glue_trigger" "bronze_crawlers_batch2" {
+  name          = "bronze-crawlers-batch2"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.bronze_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.bronze-crypto-market-ranking.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.bronze-crypto-sentiment.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.bronze-crypto-trending.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.bronze-posts-content.name
+  }
+}
+
+resource "aws_glue_workflow" "silver_crawlers_workflow" {
+  name = "silver-crawlers-workflow"
+}
+
+# Silver: EVENT starting trigger (2 crawlers) + 2 CONDITIONAL triggers for the remaining 3
+resource "aws_glue_trigger" "start_silver_crawlers_event_trigger_1" {
+  name          = "start-silver-crawlers-event-trigger-1"
+  type          = "EVENT"
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
+
+  actions {
+    crawler_name = aws_glue_crawler.silver-crypto-market-ranking.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.silver-crypto-sentiment.name
+  }
+}
+
+resource "aws_glue_trigger" "silver_crawlers_batch2" {
+  name          = "silver-crawlers-batch2"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-market-ranking.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-sentiment.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.silver-crypto-trending.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.silver-posts-content.name
+  }
+}
+
+resource "aws_glue_trigger" "silver_crawlers_batch3" {
+  name          = "silver-crawlers-batch3"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.silver-crypto-trending.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.silver-posts-content.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.silver-posts-relationships.name
+  }
+}
+
+resource "aws_glue_workflow" "gold_crawlers_workflow" {
+  name = "gold-crawlers-workflow"
+}
+
+# Gold: EVENT starting trigger (2 crawlers) + 3 CONDITIONAL triggers for the remaining 5
+# Note: start_gold_crawlers_event_trigger_3 (posts-content+score-by-crypto) was accidentally
+# created as the starting trigger. Removing it from config causes Terraform to destroy it,
+# then start_gold_crawlers_event_trigger_1 becomes the correct starting EVENT trigger.
+resource "aws_glue_trigger" "start_gold_crawlers_event_trigger_1" {
+  name          = "start-gold-crawlers-event-trigger-1"
+  type          = "EVENT"
+  workflow_name = aws_glue_workflow.gold_crawlers_workflow.name
+
+  actions {
+    crawler_name = aws_glue_crawler.gold-crypto-market-ranking.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.gold-crypto-sentiment.name
+  }
+}
+
+resource "aws_glue_trigger" "gold_crawlers_batch2" {
+  name          = "gold-crawlers-batch2"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.gold_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.gold-crypto-market-ranking.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.gold-crypto-sentiment.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.gold-crypto-trending.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.gold-posts-nodes.name
+  }
+}
+
+resource "aws_glue_trigger" "gold_crawlers_batch3" {
+  name          = "gold-crawlers-batch3"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.gold_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.gold-crypto-trending.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.gold-posts-nodes.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.gold-posts-content.name
+  }
+  actions {
+    crawler_name = aws_glue_crawler.gold-score-by-crypto.name
+  }
+}
+
+resource "aws_glue_trigger" "gold_crawlers_batch4" {
+  name          = "gold-crawlers-batch4"
+  type          = "CONDITIONAL"
+  workflow_name = aws_glue_workflow.gold_crawlers_workflow.name
+
+  predicate {
+    logical = "ANY"
+    conditions {
+      crawler_name = aws_glue_crawler.gold-posts-content.name
+      crawl_state  = "SUCCEEDED"
+    }
+    conditions {
+      crawler_name = aws_glue_crawler.gold-score-by-crypto.name
+      crawl_state  = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    crawler_name = aws_glue_crawler.gold-posts-relationships.name
+  }
+}
 
 resource "aws_glue_data_quality_ruleset" "dq_post_content_gold" {
   name        = "dq-rules-post-content-gold"
@@ -764,10 +967,10 @@ resource "aws_glue_trigger" "crawler_crypto_market_ranking" {
   }
 
   predicate {
-    logical = "ANY"
+    logical = "AND"
 
     conditions {
-      crawler_name = aws_glue_crawler.silver-crypto-market_ranking.name
+      crawler_name = aws_glue_crawler.silver-crypto-market-ranking.name
       crawl_state  = "SUCCEEDED"
     }
 

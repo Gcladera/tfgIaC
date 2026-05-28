@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_lambda_function" "crypto-api-call" {
   function_name = "lambda-gecko"
   role          = var.lambda_gecko_role_arn
@@ -7,7 +9,7 @@ resource "aws_lambda_function" "crypto-api-call" {
   runtime       = "python3.12"
   timeout       = 180
   memory_size   = 128
-  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+  layers        = [ "arn:aws:lambda:${data.aws_region.current.region}:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
   vpc_config {
     subnet_ids                  = var.lambda_private_subnet_ids
@@ -34,7 +36,7 @@ resource "aws_lambda_function" "posts-api-call" {
   runtime       = "python3.12"
   timeout       = 180
   memory_size   = 512
-  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+  layers        = [ "arn:aws:lambda:${data.aws_region.current.region}:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
   vpc_config {
     subnet_ids                  = var.lambda_private_subnet_ids
@@ -61,7 +63,7 @@ resource "aws_lambda_function" "lambda-gecko-silver" {
   runtime       = "python3.12"
   timeout       = 180
   memory_size   = 128
-  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+  layers        = [ "arn:aws:lambda:${data.aws_region.current.region}:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
   vpc_config {
     subnet_ids                  = var.lambda_private_subnet_ids
@@ -87,7 +89,7 @@ resource "aws_lambda_function" "lambda-posts-silver" {
   runtime       = "python3.12"
   timeout       = 180
   memory_size   = 512
-  layers        = [ "arn:aws:lambda:eu-north-1:336392948345:layer:AWSSDKPandas-Python312:22" ]
+  layers        = [ "arn:aws:lambda:${data.aws_region.current.region}:336392948345:layer:AWSSDKPandas-Python312:22" ]
 
   vpc_config {
     subnet_ids                  = var.lambda_private_subnet_ids

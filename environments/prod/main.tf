@@ -32,10 +32,13 @@ module "lambda" {
 }
 
 module "glue" {
-  source                = "../../modules/glue"
-  glue_service_role_arn = module.iam.glue_service_role_arn
-  glue_s3_role_arn      = module.iam.glue_s3_role_arn
+  source                  = "../../modules/glue"
+  glue_service_role_arn   = module.iam.glue_service_role_arn
+  glue_s3_role_arn        = module.iam.glue_s3_role_arn
+  datalake_bucket_name    = module.s3.datalake_bucket_name
+  glue_assets_bucket_name = module.s3.glue_assets_bucket_name
 }
+
 
 module "eventbridge" {
   source                                  = "../../modules/eventbridge"
@@ -47,6 +50,13 @@ module "eventbridge" {
   eventbridge_scheduler_lambda_4_role_arn = module.iam.eventbridge_scheduler_lambda_4_role_arn
   lambda_gecko_silver_function_arn        = module.lambda.lambda_gecko_silver_function_arn
   lambda_posts_silver_function_arn        = module.lambda.lambda_posts_silver_function_arn
+  s3_datalake                             = module.s3.datalake_bucket_name
+  glue_workflow_bronze_arn                = module.glue.glue_workflow_bronze_arn
+  glue_workflow_silver_arn                = module.glue.glue_workflow_silver_arn
+  glue_workflow_gold_arn                  = module.glue.glue_workflow_gold_arn
+  eventbridge_bronze_crawler_role_arn     = module.iam.eventbridge_bronze_crawler_role_arn
+  eventbridge_silver_crawler_role_arn     = module.iam.eventbridge_silver_crawler_role_arn
+  eventbridge_gold_crawler_role_arn       = module.iam.eventbridge_gold_crawler_role_arn
 }
 
 module "ecs" {
@@ -70,17 +80,21 @@ module "iam" {
   schema_database_name      = module.glue.schema_database_name
   datalake_bucket_arn       = module.s3.datalake_bucket_arn
   athena_results_bucket_arn = module.s3.athena_results_bucket_arn
+  glue_workflow_bronze_arn  = module.glue.glue_workflow_bronze_arn
+  glue_workflow_silver_arn  = module.glue.glue_workflow_silver_arn
+  glue_workflow_gold_arn    = module.glue.glue_workflow_gold_arn
 }
 module "vpc" {
   source = "../../modules/vpc"
 }
 
 module "athena" {
-  source = "../../modules/athena"
+  source                     = "../../modules/athena"
+  athena_results_bucket_name = module.s3.athena_results_bucket_name
 }
 
 provider "aws" {
-  region = "eu-north-1"
+  region = var.aws_region
 }
 
 module "secretsmanager" {

@@ -22,3 +22,23 @@ variable "athena_results_bucket_arn" {
   type        = string
   description = "ARN of the Athena query results S3 bucket"
 }
+
+#Crawler IDs - Bronze
+variable "glue_workflow_bronze_arn" {
+  description = "The ARN of the bronze glue workflow"
+  type        = string
+}
+variable "glue_workflow_silver_arn" {
+  description = "The ARN of the silver glue workflow"
+  type        = string
+}
+variable "glue_workflow_gold_arn" {
+  description = "The ARN of the gold glue workflow"
+  type        = string
+}
+
+variable "athena_workgroup_name" {
+  description = "Name of the Athena workgroup"
+  type        = string
+  default     = "athena-datacatalog"
+}

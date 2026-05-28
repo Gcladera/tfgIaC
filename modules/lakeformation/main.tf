@@ -1,5 +1,13 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+  aws_region = data.aws_region.current.region
+}
+
 resource "aws_lakeformation_data_lake_settings" "lakeformation-settings" {
-  admins                                = ["arn:aws:iam::544820269502:root", "arn:aws:iam::544820269502:user/grau_cladera"]
+  admins                                = ["arn:aws:iam::${local.account_id}:root", "arn:aws:iam::${local.account_id}:user/grau_cladera"]
   allow_external_data_filtering         = false
   allow_full_table_external_data_access = false
   authorized_session_tag_value_list     = []
@@ -10,7 +18,7 @@ resource "aws_lakeformation_data_lake_settings" "lakeformation-settings" {
     SET_CONTEXT           = "TRUE"
   }
   read_only_admins        = []
-  region                  = "eu-north-1"
+  region                  = local.aws_region
   trusted_resource_owners = []
 }
 
@@ -193,8 +201,8 @@ locals {
 resource "aws_lakeformation_permissions" "glue_s3_tables_all" {
   for_each                      = toset(local.glue_s3_tables)
   principal                     = var.glue_s3_role_arn
-  permissions                   = ["ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
-  permissions_with_grant_option = ["ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
+  permissions                   = ["SELECT", "ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
+  permissions_with_grant_option = ["SELECT", "ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
   table {
     database_name = var.schema_database_name
     name          = each.value
@@ -204,8 +212,8 @@ resource "aws_lakeformation_permissions" "glue_s3_tables_all" {
 resource "aws_lakeformation_permissions" "glue_s3_columns_select" {
   for_each                      = toset(local.glue_s3_tables)
   principal                     = var.glue_s3_role_arn
-  permissions                   = ["SELECT"]
-  permissions_with_grant_option = ["SELECT"]
+  permissions                   = ["SELECT", "ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
+  permissions_with_grant_option = ["SELECT", "ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT"]
   table_with_columns {
     database_name = var.schema_database_name
     name          = each.value
@@ -215,8 +223,8 @@ resource "aws_lakeformation_permissions" "glue_s3_columns_select" {
 
 # AWSServiceRoleForECS
 resource "aws_lakeformation_permissions" "ecs_service_role_describe" {
-  principal   = "arn:aws:iam::544820269502:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
-  permissions = ["DESCRIBE"]
+  principal   = "arn:aws:iam::${local.account_id}:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+  permissions = ["SELECT", "DESCRIBE"]
   table {
     database_name = var.schema_database_name
     wildcard      = true
@@ -225,7 +233,7 @@ resource "aws_lakeformation_permissions" "ecs_service_role_describe" {
 
 
 resource "aws_lakeformation_permissions" "ecs_service_role_select" {
-  principal   = "arn:aws:iam::544820269502:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+  principal   = "arn:aws:iam::${local.account_id}:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
   permissions = ["SELECT", "DESCRIBE"]
 
   table {

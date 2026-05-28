@@ -1,8 +1,11 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
 resource "aws_athena_workgroup" "primary" {
   description   = null
   force_destroy = false
   name          = "primary"
-  region        = "eu-north-1"
+  region        = data.aws_region.current.region
   state         = "ENABLED"
   tags          = {}
   tags_all      = {}
@@ -21,7 +24,7 @@ resource "aws_athena_workgroup" "primary" {
     }
     result_configuration {
       expected_bucket_owner = null
-      output_location       = "s3://s3-athena-query-results-tfgdl/"
+      output_location       = "s3://${var.athena_results_bucket_name}/"
     }
   }
 }
@@ -29,7 +32,7 @@ resource "aws_athena_workgroup" "athena-data-catalog" {
   description   = "Workgroup for data catalog queries without Identity Center"
   force_destroy = false
   name          = "athena-data-catalog"
-  region        = "eu-north-1"
+  region        = data.aws_region.current.region
   state         = "ENABLED"
   tags          = {}
   tags_all      = {}
@@ -45,7 +48,7 @@ resource "aws_athena_workgroup" "athena-data-catalog" {
     }
     result_configuration {
       expected_bucket_owner = null
-      output_location       = "s3://s3-athena-query-results-tfgdl/"
+      output_location       = "s3://${var.athena_results_bucket_name}/"
     }
   }
 }

@@ -1,6 +1,9 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
 resource "aws_ecs_cluster" "Grafana-ECS-cluster" {
   name   = "Grafana-ECS-cluster"
-  region = "eu-north-1"
+  region = data.aws_region.current.region
   configuration {
     execute_command_configuration {
       kms_key_id = null
@@ -50,7 +53,7 @@ resource "aws_ecs_task_definition" "grafana_task" {
       options = {
         awslogs-create-group  = "true"
         awslogs-group         = "/ecs/grafana-task"
-        awslogs-region        = "eu-north-1"
+        awslogs-region        = data.aws_region.current.region
         awslogs-stream-prefix = "ecs"
       }
       secretOptions = []
@@ -80,7 +83,7 @@ resource "aws_ecs_task_definition" "grafana_task" {
   memory                   = "1024"
   network_mode             = "awsvpc"
   pid_mode                 = null
-  region                   = "eu-north-1"
+  region                   = data.aws_region.current.region
   requires_compatibilities = ["FARGATE"]
   skip_destroy             = null
   tags                     = {}

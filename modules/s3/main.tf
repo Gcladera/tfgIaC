@@ -1,11 +1,19 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
 # modules/s3/main.tf
 
 resource "aws_s3_bucket" "s3-datalake" {
   bucket = "amzn-s3-tfgdl"
 }
 
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket      = aws_s3_bucket.s3-datalake.id
+  eventbridge = true
+}
+
 resource "aws_s3_bucket" "aws-glue-assets-eu-north-1" {
-  bucket = "aws-glue-assets-544820269502-eu-north-1"
+  bucket = "aws-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.region}"
 }
 
 resource "aws_s3_bucket" "athena-query-results" {
