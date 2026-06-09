@@ -846,9 +846,6 @@ resource "aws_glue_workflow" "gold_crawlers_workflow" {
 }
 
 # Gold: EVENT starting trigger (2 crawlers) + 3 CONDITIONAL triggers for the remaining 5
-# Note: start_gold_crawlers_event_trigger_3 (posts-content+score-by-crypto) was accidentally
-# created as the starting trigger. Removing it from config causes Terraform to destroy it,
-# then start_gold_crawlers_event_trigger_1 becomes the correct starting EVENT trigger.
 resource "aws_glue_trigger" "start_gold_crawlers_event_trigger_1" {
   name          = "start-gold-crawlers-event-trigger-1"
   type          = "EVENT"
@@ -958,9 +955,10 @@ resource "aws_glue_data_quality_ruleset" "dq_post_content_gold" {
 #-----------------------
 
 resource "aws_glue_trigger" "crawler_crypto_market_ranking" {
-  name    = "CrawlerCryptoMarketRanking"
-  type    = "CONDITIONAL"
-  enabled = true
+  name          = "CrawlerCryptoMarketRanking"
+  type          = "CONDITIONAL"
+  enabled       = true
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
 
   actions {
     job_name = aws_glue_job.ETLjobCryptoBronzeSilver.name
@@ -987,9 +985,10 @@ resource "aws_glue_trigger" "crawler_crypto_market_ranking" {
 }
 
 resource "aws_glue_trigger" "posts_relationships" {
-  name    = "PostsRelationships"
-  type    = "CONDITIONAL"
-  enabled = true
+  name          = "PostsRelationships"
+  type          = "CONDITIONAL"
+  enabled       = true
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
 
   actions {
     job_name = aws_glue_job.relationshipsBronzeSilver.name
@@ -1004,9 +1003,10 @@ resource "aws_glue_trigger" "posts_relationships" {
 }
 
 resource "aws_glue_trigger" "posts_sentiment" {
-  name    = "PostsSentiment"
-  type    = "CONDITIONAL"
-  enabled = true
+  name          = "PostsSentiment"
+  type          = "CONDITIONAL"
+  enabled       = true
+  workflow_name = aws_glue_workflow.silver_crawlers_workflow.name
 
   actions {
     job_name = aws_glue_job.JobsETLPostsBronzeSilver.name
