@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Página-1" id="_nXMInIK6G06kRzGHZLw">
-    <mxGraphModel dx="1914" dy="989" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1815" dy="1103" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -21,9 +21,6 @@
         </mxCell>
         <mxCell id="UbNDKqTdlLdy7BMQLG8_-4" parent="UbNDKqTdlLdy7BMQLG8_-2" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=none;strokeColor=#147EBA;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_subnet;strokeDasharray=3 3;verticalLabelPosition=top;verticalAlign=bottom;" value="Subred Privada A" vertex="1">
           <mxGeometry height="320" width="390" x="20" y="160" as="geometry" />
-        </mxCell>
-        <mxCell id="UbNDKqTdlLdy7BMQLG8_-5" parent="UbNDKqTdlLdy7BMQLG8_-4" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.nat_gateway;fillColor=#F58534;strokeColor=#ffffff;" value="NAT Gateway" vertex="1">
-          <mxGeometry height="50" width="50" x="320" y="50" as="geometry" />
         </mxCell>
         <mxCell id="UbNDKqTdlLdy7BMQLG8_-8" parent="UbNDKqTdlLdy7BMQLG8_-4" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.ecs;fillColor=#F58534;strokeColor=#ffffff;" value="ECS Fargate" vertex="1">
           <mxGeometry height="50" width="50" x="320" y="135" as="geometry" />
@@ -91,9 +88,6 @@
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-71" parent="6SvbBCwZG1GYyiX7b0oH-70" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=none;strokeColor=#147EBA;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_subnet;strokeDasharray=3 3;verticalLabelPosition=top;verticalAlign=bottom;container=0;" value="Subred Privada B" vertex="1">
           <mxGeometry height="330" width="390" as="geometry" />
         </mxCell>
-        <mxCell id="6SvbBCwZG1GYyiX7b0oH-72" parent="6SvbBCwZG1GYyiX7b0oH-70" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.nat_gateway;fillColor=#F58534;strokeColor=#ffffff;" value="NAT Gateway" vertex="1">
-          <mxGeometry height="50" width="50" x="30" y="50" as="geometry" />
-        </mxCell>
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-73" parent="6SvbBCwZG1GYyiX7b0oH-70" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.ecs;fillColor=#F58534;strokeColor=#ffffff;" value="ECS Fargate" vertex="1">
           <mxGeometry height="50" width="50" x="30" y="135" as="geometry" />
         </mxCell>
@@ -126,6 +120,9 @@
         </mxCell>
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-190" edge="1" parent="6SvbBCwZG1GYyiX7b0oH-70" source="6SvbBCwZG1GYyiX7b0oH-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="6SvbBCwZG1GYyiX7b0oH-74">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pnWN914SmFEy1g84T5B--2" parent="UbNDKqTdlLdy7BMQLG8_-10" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.nat_gateway;fillColor=#F58534;strokeColor=#ffffff;" value="NAT Gateway" vertex="1">
+          <mxGeometry height="50" width="50" x="61" y="61.25999999999999" as="geometry" />
         </mxCell>
         <mxCell id="UbNDKqTdlLdy7BMQLG8_-18" parent="1" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.internet_gateway;fillColor=#232F3E;strokeColor=#ffffff;" value="Internet Gateway" vertex="1">
           <mxGeometry height="50" width="50" x="1095" y="380" as="geometry" />
@@ -334,14 +331,18 @@
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-9" edge="1" parent="1" source="UbNDKqTdlLdy7BMQLG8_-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UbNDKqTdlLdy7BMQLG8_-24">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1120" y="641" />
+              <mxPoint x="990" y="641" />
+              <mxPoint x="990" y="570" />
+              <mxPoint x="1120" y="570" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="6SvbBCwZG1GYyiX7b0oH-10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UbNDKqTdlLdy7BMQLG8_-24">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1120" y="641" />
+              <mxPoint x="1270" y="641" />
+              <mxPoint x="1270" y="570" />
+              <mxPoint x="1120" y="570" />
             </Array>
             <mxPoint x="1345" y="641.0303030303032" as="sourcePoint" />
             <mxPoint x="1120.0303030303032" y="1263.4213864381413" as="targetPoint" />
@@ -443,6 +444,9 @@
             <mxPoint x="1206" y="1205" as="sourcePoint" />
             <mxPoint x="810" y="1280" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="pnWN914SmFEy1g84T5B--1" parent="1" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.nat_gateway;fillColor=#F58534;strokeColor=#ffffff;" value="NAT Gateway" vertex="1">
+          <mxGeometry height="50" width="50" x="743" y="620" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
